@@ -3,6 +3,10 @@ body {
     padding: 0%;
 }
 
+button {
+    outline: none;
+}
+
 button.formField {
     margin: 1em auto 2em auto;
     background-color: white;
