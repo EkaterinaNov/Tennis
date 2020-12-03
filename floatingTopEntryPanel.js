@@ -10,11 +10,11 @@
         const startX = (bodyWidth / 2) - (animatedElementWidth / 2);
         const startY = -animatedElementHeight - 10;
         const endX = startX;
-        const endY = animatedElementHeight + 20;
-
+        const endY = 20;
+//debugger;
         const keyframes = [
-            {transform: 'translate3D(startX, startY, 0)'},
-            {transform: 'translate3D(endX, endY, 0)'}
+            {transform: `translate3D(${startX}px, ${startY}px, 0px)`},
+            {transform: `translate3D(${endX}px, ${endY}px, 0px)`}
         ];
 
         const options = {
@@ -23,6 +23,8 @@
         };
 
         animatedElement.animate(keyframes, options);
+        animatedElement.style.left = endX + 'px';
+        animatedElement.style.top = endY + 'px';
     }
 
     floatingOnTopCenter(entryPanelElement);
