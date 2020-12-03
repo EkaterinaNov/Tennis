@@ -21,13 +21,15 @@
 
         const options = {
             duration: 1000,
-            delay: 1000
+            delay: 500
         };
 
-        animatedElement.style.transform = `translate3D(${startX}px, ${startY}px, 0px)`;
         animatedElement.animate(keyframes, options);
         animatedElement.style.transform = `translate3D(${endX}px, ${endY}px, 0px)`;
     }
 
     floatingOnTopCenter(entryPanelElement, gamePanelElement);
+    const renameButtonClass = 'rename';
+    const renameButtonElement = document.getElementsByClassName(renameButtonClass)[0];
+    renameButtonElement.addEventListener('click', ()=>{floatingOnTopCenter(entryPanelElement, gamePanelElement)});
 })()

@@ -2,7 +2,8 @@
 (function() {
     function validFirstPlayer(isFocus) {
         var errorCounter = 0;
-        var validatedElement = document.forms.entryPanel.elements.firstPlayer;
+        const firstPlayerNameId = 'firstPlayer';
+        var validatedElement = document.getElementById(firstPlayerNameId);
 
         if(!validatedElement.value) {
             errorCounter++;
@@ -14,7 +15,8 @@
     }
     function validSecondPlayer(isFocus) {
         var errorCounter = 0;
-        var validatedElement = document.forms.entryPanel.elements.secondPlayer;
+        const secondPlayerNameId = 'secondPlayer';
+        var validatedElement = document.getElementById(secondPlayerNameId);
 
         if(!validatedElement.value) {
             errorCounter++;
@@ -25,8 +27,17 @@
         return errorCounter;
     }
 
-    function validateEntryPanel(EO) {
-        EO=EO||window.event;
+    function clearEntryPanel() {
+        const emptyString = '';
+        const firstPlayerNameId = 'firstPlayer';
+        var firstPlayerElement = document.getElementById(firstPlayerNameId);
+        const secondPlayerNameId = 'secondPlayer';
+        var secondPlayerElement = document.getElementById(secondPlayerNameId);
+        firstPlayerElement.value = emptyString;
+        secondPlayerElement.value = emptyString;
+    }
+
+    function validateEntryPanel() {
 
         try {
             const entryPanelClass = 'entryPanel';
@@ -42,38 +53,38 @@
 
             if(numberMissed) {
                 notificationElement.style.visibility = visibilityVisible;
-                EO.preventDefault();
             } else {
                 notificationElement.style.visibility = visibilityHidden;
                 changeFirstPlayerName();
                 changeSecondPlayerName();
                 entryPanelElement.style.transform = '';
-                EO.preventDefault();
+                clearEntryPanel();
             }
         }
 
         catch {
             alert('Извините, что-то пошло не так. Проверьте правильность заполнения формы.');
-            EO.preventDefault();
         }
         return;
     }
 
     function changeFirstPlayerName() {
         const pastNameElementClass = 'firstPlayerName';
-        var firstPlayerNameValue = document.forms.entryPanel.elements.firstPlayer.value;
+        const firstPlayerNameId = 'firstPlayer';
+        var firstPlayerNameValue = document.getElementById(firstPlayerNameId).value;
         var pastNameElement = document.getElementsByClassName(pastNameElementClass)[0];
         pastNameElement.textContent = firstPlayerNameValue;
     }
 
     function changeSecondPlayerName() {
         const pastNameElementClass = 'secondPlayerName';
-        var secondPlayerNameValue = document.forms.entryPanel.elements.secondPlayer.value;
+        const secondPlayerNameId = 'secondPlayer';
+        var secondPlayerNameValue = document.getElementById(secondPlayerNameId).value;
         var pastNameElement = document.getElementsByClassName(pastNameElementClass)[0];
         pastNameElement.textContent = secondPlayerNameValue;
     }
 
     const buttonFormFieldSelector = 'button.formField';
     const buttonFormFieldElement = document.querySelector(buttonFormFieldSelector);
-    buttonFormFieldElement.addEventListener("click", validateEntryPanel);
+    buttonFormFieldElement.addEventListener('click', validateEntryPanel);
 })()
