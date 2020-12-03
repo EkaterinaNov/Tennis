@@ -3,6 +3,14 @@ body {
     padding: 0%;
 }
 
+button.formField {
+    margin: 1em auto 2em auto;
+    background-color: white;
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    padding: 0.2em 0.4em;
+}
+
 .control {
     color: black;
     font: normal 1em sans-serif;
@@ -13,14 +21,13 @@ body {
 }
 
 .entryPanel {
-    width: auto;
-    height: auto;
+    width: 13em;
+    height: 14.5em;
     position: absolute;
-    top: -200px;
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
-    transform: translateZ(0);
+    transform: translate3d(0px, -300px, 0px);
 }
 
 .formField {
@@ -31,11 +38,12 @@ body {
 .gamePanel {
     width: 1200px;
     margin: auto;
+    position: relative;
 }
 
 .infoText {
     display: inline-block;
-    width: 31%;
+    width: 33%;
     text-align: center;
     color: black;
     font: normal 2em sans-serif;
@@ -47,14 +55,6 @@ body {
 }
 
 input[type="text"] {
-    background-color: white;
-    border: 0.1em solid rgb(217,176,151);
-    border-radius: 0.5em;
-    padding: 0.2em 0.4em;
-}
-
-input[type="submit"] {
-    margin: 1em auto 2em auto;
     background-color: white;
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
