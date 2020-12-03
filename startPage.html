@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="Pictures/tennisBall.png" type="image/x-icon">
+    <title>Tennis</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="gamePanel">
+        <nav class="statusBar">
+            <ul class="navGame">
+                <li><button class="control start">Старт</button></li>
+                <li><button class="control rename">Изменить имена игроков</button></li>
+            </ul>
+        </nav>
+
+        <form class="entryPanel">
+            <label class="formField" for="firstPlayer">Первый игрок</label>
+            <input class="formField" id="firstPlayer" name="firstPlayer" type="text">
+            <label class="formField" for="secondPlayer">Второй игрок</label>
+            <input class="formField" id="secondPlayer" name="secondPlayer" type="text">
+            <input class="formField" type="submit" value="OK">
+        </form>
+
+        <div class="infoPanel">
+            <div class="infoText"><p class="firstPlayerName"></p></div>
+            <div class="infoText"><p class="gameScore">0:0</p></div>
+            <div class="infoText"><p class="secondPlayerName"></p></div>
+        </div>
+        <script src="floatingTopEntryPanel.js"></script>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

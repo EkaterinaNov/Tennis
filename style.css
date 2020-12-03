@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0%;
+}
+
+.control {
+    color: black;
+    font: normal 1em sans-serif;
+    background-color: rgb(247,241,230);
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    padding: 0.2em 0.4em;
+}
+
+.entryPanel {
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: -200px;
+    background-color: rgb(247,241,230);
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    transform: translateZ(0);
+}
+
+.formField {
+    display: block;
+    margin: 1em;
+}
+
+.gamePanel {
+    width: 1200px;
+    margin: auto;
+}
+
+.infoText {
+    display: inline-block;
+    width: 31%;
+    text-align: center;
+    color: black;
+    font: normal 2em sans-serif;
+    text-transform: uppercase;
+}
+
+.infoText p {
+    margin: 0.2em 0em;
+}
+
+input[type="text"] {
+    background-color: white;
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    padding: 0.2em 0.4em;
+}
+
+input[type="submit"] {
+    margin: 1em auto;
+    background-color: white;
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    padding: 0.2em 0.4em;
+}
+
+li {
+    display: inline-block;
+    margin: 0.5em 1em;
+}
+
+ul.navGame {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+@media all and (max-width: 1200px) {
+    .gamePanel {width: 100%;}
+}
+
+
+@media all and (max-width: 700px) {
+    .infoText:nth-child(even) {width: 10%;}
+    .infoText:nth-child(odd) {width: 44%;}
+}
+
+@media all and (max-width: 550px) {
+    .infoPanel .infoText {width: 100%; display: block; margin: 0 auto;}
+}
