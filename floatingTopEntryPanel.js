@@ -11,7 +11,7 @@
         const startY = -animatedElementHeight - 10;
         const endX = startX;
         const endY = 20;
-//debugger;
+
         const keyframes = [
             {transform: `translate3D(${startX}px, ${startY}px, 0px)`},
             {transform: `translate3D(${endX}px, ${endY}px, 0px)`}

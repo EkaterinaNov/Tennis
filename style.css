@@ -54,7 +54,7 @@ input[type="text"] {
 }
 
 input[type="submit"] {
-    margin: 1em auto;
+    margin: 1em auto 2em auto;
     background-color: white;
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
@@ -64,6 +64,14 @@ input[type="submit"] {
 li {
     display: inline-block;
     margin: 0.5em 1em;
+}
+
+.notificationLabel {
+    display: block;
+    margin: 0.5em auto;
+    text-align: center;
+    color: red;
+    visibility: hidden;
 }
 
 ul.navGame {
