@@ -45,6 +45,11 @@ button.formField {
     position: relative;
 }
 
+input {
+    outline: none;
+    margin: 0 auto;
+}
+
 .infoText {
     display: inline-block;
     width: 32%;
