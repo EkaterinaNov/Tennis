@@ -6,9 +6,9 @@
     const gamePanelElement = document.getElementsByClassName(gamePanelClass)[0];
 
     function floatingOnTopCenter (animatedElement, parentElement) {
-        const parentElementWidth = parseFloat(parentElement.offsetWidth);
-        const animatedElementWidth = parseFloat(animatedElement.offsetWidth);
-        const animatedElementHeight = parseFloat(animatedElement.offsetHeight);
+        const parentElementWidth = parentElement.offsetWidth;
+        const animatedElementWidth = animatedElement.offsetWidth;
+        const animatedElementHeight = animatedElement.offsetHeight;
         const startX = (parentElementWidth / 2) - (animatedElementWidth / 2);
         const startY = -animatedElementHeight - 10;
         const endX = startX;
@@ -25,11 +25,17 @@
         };
 
         animatedElement.animate(keyframes, options);
-        animatedElement.style.transform = `translate3D(${endX}px, ${endY}px, 0px)`;
+        setTimeout(()=>{setEndCoordinate(animatedElement, endX, endY)}, 1400);
+        return;
     }
 
-    floatingOnTopCenter(entryPanelElement, gamePanelElement);
+    function setEndCoordinate(animatedElement, coordX,coordY) {
+        animatedElement.style.transform = `translate3D(${coordX}px, ${coordY}px, 0px)`;
+        return;
+    }
+
     const renameButtonClass = 'rename';
     const renameButtonElement = document.getElementsByClassName(renameButtonClass)[0];
-    renameButtonElement.addEventListener('click', ()=>{floatingOnTopCenter(entryPanelElement, gamePanelElement)});
+    renameButtonElement.addEventListener('click', function(){floatingOnTopCenter(entryPanelElement, gamePanelElement)});
+    floatingOnTopCenter(entryPanelElement, gamePanelElement);
 })()
