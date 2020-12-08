@@ -1,3 +1,4 @@
+(function() {
     class GameTable {
     coordinateX = 0;
     coordinateY = 0;
@@ -53,3 +54,4 @@
         return {width: this.width, height: this.height};
     }
 }
+})()

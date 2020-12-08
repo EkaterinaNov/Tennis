@@ -1,3 +1,4 @@
+(function() {
     class TennisRacket{
         coordinateX = 0;
         coordinateY = 0;
@@ -67,4 +68,9 @@
         getSpeed() {
             return {speedY: this.speedY};
         }
+
+        move() {
+            this.coordinateY += this.speedY;
+        }
     }
+})()
