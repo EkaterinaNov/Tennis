@@ -31,7 +31,7 @@ button.formField {
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
-    transform: translate3d(0px, -300px, 0px);
+    transform: translate3d(0px, -350px, 0px);
 }
 
 .formField {
@@ -109,4 +109,8 @@ ul.navGame {
 @media all and (max-width: 552px) {
     .infoPanel .infoText {width: 100%; display: block; margin: 0 auto;}
     .gamePanel {width: 380px;}
+}
+
+@media all and (max-width: 402px) {
+    .gamePanel {width: 300px;}
 }
