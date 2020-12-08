@@ -43,6 +43,7 @@ button.formField {
     width: 1200px;
     margin: auto;
     position: relative;
+    background-color: grey;
 }
 
 input {
@@ -91,8 +92,12 @@ ul.navGame {
 }
 
 
-@media all and (max-width: 1200px) {
-    .gamePanel {width: 100%;}
+@media all and (max-width: 1202px) {
+    .gamePanel {width: 800px;}
+}
+
+@media all and (max-width: 802px) {
+    .gamePanel {width: 550px;}
 }
 
 
@@ -101,6 +106,7 @@ ul.navGame {
     .infoText:nth-child(odd) {width: 44%;}
 }
 
-@media all and (max-width: 550px) {
+@media all and (max-width: 552px) {
     .infoPanel .infoText {width: 100%; display: block; margin: 0 auto;}
+    .gamePanel {width: 380px;}
 }
