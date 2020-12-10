@@ -1,4 +1,5 @@
 
+    //stores the player's name and game score
     class Gamer{
         name;
         score;
