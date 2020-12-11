@@ -7,6 +7,7 @@ class KeyboardController{
     gameTable;
     elementForInsertView;
     timeOut;
+    isTimerStart = false;
 
     constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, elementForInsertView) {
         this.firstGamer = firstGamer;
@@ -28,29 +29,31 @@ class KeyboardController{
         document.body.addEventListener('keyup', this.upStop());
         document.body.addEventListener('keydown', this.downMoove());
         document.body.addEventListener('keyup', this.downStop());
+
+        window.addEventListener("resize", this.whenResize, false);
     }
 
-    /*method() {
-        if(this.timeOut) {
-            clearTimeout(this.timeOut);
-            this.timeOut = setTimeout(this.startRecalculate, 1500);
-        } else {
-            this.timeOut = setTimeout(this.startRecalculate, 1500);
-        }
-    }*/
-
-    method() {
+    checkResizePeriod() {
         const timeNow = new Date().getTime();
         const period = this.startTime - timeNow;
-        const checkPeriod = 1500;
+        const checkPeriod = 800;
         if(period >= checkPeriod) {
             this.startRecalculate;
             this.startTime = 0;
+            clearInterval(this.timeOut);
+            this.timeOut = null;
+            isTimerStart = false;
         }
     }
 
     whenResize() {
-        this.startTime = new Date().getTime();
+        if(isTimerStart) {
+            this.startTime = new Date().getTime();
+        } else {
+            this.startTime = new Date().getTime();
+            this.timeOut = setInterval(this.checkResizePeriod, 1000/3);
+            isTimerStart = true;
+        }
     }
 
     startRecalculate() {
