@@ -21,6 +21,9 @@ class GameBall{
     firstGamer;
     secondGamer;
     gameView;
+
+    soundGoalScored;
+    impactSound;
     
     constructor(gameTableWidth, leftTennisRacket, rightTennisRacket, firstGamer, secondGamer) {
         const typeObject = 'object';
@@ -39,10 +42,18 @@ class GameBall{
     }
 
     checkGoal() {
-        if(this.coordinateX === leftBorder) {
+        if(this.coordinateX <= this.leftBorder + this.radius) {
+            this.playGoalScored;
+            this.speedX = -this.speedX;
             secondGamer.setScore(true);
+        } else if(this.coordinateX >= this.rightBorder - this.radius) {
+            this.playGoalScored;
+            this.speedX = -this.speedX;
+            firstGamer.setScore(true);
         }
     }
+
+    checkCollision() {}
     
     getCoordinate() {
         return {x: this.coordinateX, y: this.coordinateY};
@@ -71,6 +82,17 @@ class GameBall{
             this.gameView.update;
         }
         this.requestLink = window.requestAnimationFrame(this.move);
+        checkGoal();
+    }
+
+    playGoalScored(){
+        this.soundGoalScored.currentTime = 0;
+        this.soundGoalScored.play();
+    }
+
+    playImpactSound() {
+        this.impactSound.currentTime = 0;
+        this.impactSound.play();
     }
 
     recalculationParameters(gameTableWidth) {

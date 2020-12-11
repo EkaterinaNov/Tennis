@@ -48,7 +48,7 @@ class TennisRacket{
         if (this.coordinateY < this.topBorder) {
             this.speedY = 0;
             this.coordinateY = this.topBorder;
-        } else if (this.coordinateY > this.bottomBorder) {
+        } else if (this.coordinateY > this.bottomBorder - this.height) {
             this.speedY = 0;
             this.coordinateY = this.bottomBorder;
         } else {
