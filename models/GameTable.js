@@ -8,7 +8,27 @@
     gameView;
 
     constructor(gameTableWidth) {
-        this.recalculationParameters(gameTableWidth);
+        if(Number.isInteger(gameTableWidth)) {
+            this.recalculationParameters(gameTableWidth);
+        } else {
+            throw new TypeError('The game table width must be integer');
+        }
+    }
+    
+    getCoordinate() {
+        return {x: this.coordinateX, y: this.coordinateY};
+    }
+
+    getFillColor() {
+        return this.fillcolor;
+    }
+
+    getDimensions() {
+        return {width: this.width, height: this.height};
+    }
+
+    getView() {
+        return this.gameView;
     }
 
     recalculationParameters(gameTableWidth) {
@@ -30,9 +50,12 @@
     }
 
     setView(view) {
-        if(view) {
-            this.gameView = view;
-        }
+        const typeObject = 'object';
+            if(typeof(view) === typeObject){
+                this.gameView = gameView;
+            } else {
+                throw new TypeError('View must be object type of someView');
+            }
     }
 
     setDimensions(gameTableWidth, gameTableHeight) {
@@ -77,19 +100,7 @@
         }
     }
 
-    getCoordinate() {
-        return {x: this.coordinateX, y: this.coordinateY};
-    }
-
-    getFillColor() {
-        return this.fillcolor;
-    }
-
-    getDimensions() {
-        return {width: this.width, height: this.height};
-    }
-
-    getView() {
-        return this.gameView;
+    destruct() {
+        this.gameView = null;
     }
 }

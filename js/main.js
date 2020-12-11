@@ -23,7 +23,7 @@
     rightTennisRacket.setFillColor(colors.rightRacketColor);
 
     //create gameBall
-    var gameBall = new GameBall(gamePanelElementWidth);
+    var gameBall = new GameBall(gamePanelElementWidth, leftTennisRacket, rightTennisRacket, firstGamer, secondGamer);
 
     //create game table
     var gameTable = new GameTable(gamePanelElementWidth);
@@ -34,8 +34,19 @@
     //set view all game objects
     gameTable.setView(gameView);
     gameBall.setView(gameView);
+
     leftTennisRacket.setView(gameView);
     rightTennisRacket.setView(gameView);
+
+    firstGamer.setView(gameView);
+    secondGamer.setView(gameView);
+    
+    firstGamer.setTennisRacket(leftTennisRacket, true);
+    firstGamer.setTennisRacket(rightTennisRacket, false);
+    secondGamer.setTennisRacket(leftTennisRacket, true);
+    secondGamer.setTennisRacket(rightTennisRacket, false);
+    firstGamer.setGameBall(gameBall);
+    secondGamer.setGameBall(gameBall);
 
     if (Modernizr.touch){
         // можем использовать rollover/rollouts события
