@@ -24,6 +24,7 @@ class TennisRacket{
         this.isLeft = isLeft;
         this.width = 28;
         this.height = 120;
+        this.setStartCoordinate();
         return this;
     }
 
@@ -66,19 +67,22 @@ class TennisRacket{
     setView(view) {
         const typeObject = 'object';
         if(typeof(view) === typeObject){
-            this.gameView = gameView;
+            this.gameView = view;
         } else {
             throw new TypeError('View must be object type of someView');
         }
     }
 
     setStartCoordinate() {
-        if(isLeft) {
+        if(this.isLeft) {
             this.coordinateX = 0;
         } else {
-            this.coordinateX = gameTableWidth - this.width;
+            this.coordinateX = this.knownTableWidth - this.width;
         }
-        this.view.update();
+        this.coordinateY = Math.floor(this.bottomBorder / 2 - this.height / 2);
+        if(this.gameView) {
+            this.gameView.update();
+        }
     }
 
     setSpeed(racketSpeed) {

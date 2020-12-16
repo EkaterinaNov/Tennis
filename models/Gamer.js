@@ -43,7 +43,7 @@
         setView(view) {
             const typeObject = 'object';
             if(typeof(view) === typeObject){
-                this.gameView = gameView;
+                this.gameView = view;
             } else {
                 throw new TypeError('View must be object type of someView');
             }

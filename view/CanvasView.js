@@ -31,7 +31,7 @@ class CanvasView {
         this.canvasElement = document.createElement(canvasClass);
         this.canvasElement.classList.add(setCanvasClass);
         elementForInsertView.appendChild(this.canvasElement);
-        this.canvasContext = canvasElement.getContext(canvasContextStr);
+        this.canvasContext = this.canvasElement.getContext(canvasContextStr);
         this.recalculateSize();
         this.update();
     }
@@ -90,6 +90,7 @@ class CanvasView {
         this.canvasContext.fillStyle = this.gameBall.getFillColor();
         this.canvasContext.beginPath();
         this.canvasContext.arc(Math.floor(ballCoord.x * this.reculculateIndex), Math.floor(ballCoord.y * this.reculculateIndex),
-        Math.floor(ballRadius * this.reculculateIndex), 0, 2 * Math.PI);
+            Math.floor(ballRadius * this.reculculateIndex), 0, 2 * Math.PI);
+        this.canvasContext.fill();
     }
 }

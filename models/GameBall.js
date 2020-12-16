@@ -127,7 +127,7 @@ class GameBall{
     setView(view) {
         const typeObject = 'object';
         if(typeof(view) === typeObject){
-            this.gameView = gameView;
+            this.gameView = view;
         } else {
             throw new TypeError('View must be object type of someView');
         }
@@ -136,6 +136,9 @@ class GameBall{
     setStartCoordinate() {
         this.coordinateX = Math.floor(this.rightBorder / 2);
         this.coordinateY = Math.floor(this.bottomBorder / 2);
+        if(this.gameView) {
+            this.gameView.update();
+        }
     }
 
     setCoordinate(x,y) {
