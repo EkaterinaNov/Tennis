@@ -5,17 +5,20 @@ class KeyboardController{
     rightTennisRacket;
     gameBall;
     gameTable;
+    gameView;
+
     elementForInsertView;
     timeOut;
     isTimerStart = false;
 
-    constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, elementForInsertView) {
+    constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView, elementForInsertView) {
         this.firstGamer = firstGamer;
         this.secondGamer = secondGamer;
         this.leftTennisRacket = leftTennisRacket;
         this.rightTennisRacket = rightTennisRacket;
         this.gameBall = gameBall;
         this.gameTable = gameTable;
+        this.gameView = gameView;
         this.elementForInsertView = elementForInsertView;
     }
 

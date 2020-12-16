@@ -72,19 +72,15 @@
             }
         }
 
-        setScore(increase = true) {
-            if(increase) {
-                const maxScore = 3;
-                this.score++;
-                this.gameView.updateScore;
-                if(this.score === maxScore) {
-                    this.gameBall.stopMove;
-                    this.leftTennisRacket.stopMove;
-                    this.rightTennisRacket.stopMove;
-                    this.gameView.showWinner;
-                }
-            } else {
-                throw new TypeError('The score of the gamer must be integer');
+        increaseScore() {
+            const maxScore = 3;
+            this.score++;
+            this.gameView.updateScore();
+            if(this.score === maxScore) {
+                this.gameBall.stopMove();
+                this.leftTennisRacket.stopMove();
+                this.rightTennisRacket.stopMove();
+                this.gameView.showWinner();
             }
         }
 

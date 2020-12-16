@@ -5,23 +5,25 @@ class TennisRacket{
     speedY = 0;
     width = 0;
     height = 0;
-    fillcolor = 0x1E7392; //hexadecimal nuber in format 0x000000
+    fillcolor = '#D96826';
+
     leftBorder = 0;
     topBorder = 0;
-    rightBorder = 1200;
-    bottomBorder = 0;
-    knownTableWidth = 1200;
+    rightBorder;
+    bottomBorder;
+    knownTableWidth;
+
     requestLink;
     gameView;
+    isLeft;
 
-    constructor(gameTableWidth, isLeft = true) {
-        if(Number.isInteger(gameTableWidth)) {
-            this.knownTableWidth = gameTableWidth;
-            this.recalculationParameters(gameTableWidth);
-            this.setStartCoordinate(gameTableWidth, isLeft);
-        } else {
-            throw new TypeError('Height and width of the game ball must be integers');
-        }
+    constructor(gameTable, isLeft = true) {
+        this.knownTableWidth = gameTable.getWidth();
+        this.rightBorder = this.knownTableWidth;
+        this.bottomBorder = gameTable.getHeight();
+        this.isLeft = isLeft;
+        this.width = 28;
+        this.height = 120;
     }
 
     getCoordinate() {
@@ -55,39 +57,9 @@ class TennisRacket{
             this.coordinateY += this.speedY;
         }
         if(this.gameView) {
-            this.gameView.update;
+            this.gameView.update();
         }
         this.requestLink = window.requestAnimationFrame(this.move);
-    }
-
-    recalculationParameters(gameTableWidth) {
-        if(Number.isInteger(gameTableWidth)) {
-            const heightIndexBorder = 0.66;
-
-            this.leftBorder = 0;
-            this.topBorder = 0;
-            this.rightBorder = gameTableWidth;
-            this.bottomBorder = Math.round(gameTableWidth * heightIndexBorder);
-
-            if(gameTableWidth >= 700) {
-                const heightIndex = 0.15;
-                const widthIndex = 0.02;
-                this.height = Math.round(gameTableWidth * heightIndex);
-                this.width = Math.round(gameTableWidth * widthIndex);
-            } else {
-                this.height = 120;
-                this.width = 25;
-            }
-
-            this.coordinateX *= recalculationIndex;
-            this.coordinateY *= recalculationIndex;
-            
-            if(this.gameView) {
-                this.gameView.update;
-            }
-        } else {
-            throw new TypeError('Height and width of the tennis racket must be integers');
-        }
     }
 
     setView(view) {
@@ -99,47 +71,20 @@ class TennisRacket{
         }
     }
 
-    setStartCoordinate(gameTableWidth, isLeft = true) {
-        if(Number.isInteger(gameTableWidth)) {
-            if(gameTableWidth >= 700) {
-                const coordinateYIndex = 0.25;
-                this.coordinateY = Math.round(gameTableWidth * coordinateYIndex);
-                if(isLeft) {
-                    this.coordinateX = 0;
-                } else {
-                    this.coordinateX = gameTableWidth - this.width;
-                }
-            } else {
-                const coordinateYIndex = 0.35;
-                this.coordinateY = Math.round(gameTableWidth * coordinateYIndex);
-                if(isLeft) {
-                    this.coordinateX = 0;
-                } else {
-                    this.coordinateX = gameTableWidth - this.width;
-                }
-            }
+    setStartCoordinate() {
+        if(isLeft) {
+            this.coordinateX = 0;
         } else {
-            throw new TypeError('Height and width of the tennis racket must be integers');
+            this.coordinateX = gameTableWidth - this.width;
         }
-    }
-
-    setDimensions(racketWidth, racketHeight) {
-        if(Number.isInteger(racketWidth) && Number.isInteger(racketHeight)) {
-            this.width = racketWidth;
-            this.height = racketHeight;
-            if(this.gameView) {
-                this.gameView.update;
-            }
-        } else {
-            throw new TypeError('Height and width of the tennis racket must be integers');
-        }
+        this.view.update();
     }
 
     setSpeed(racketSpeed) {
         if(Number.isInteger(racketSpeed)) {
             this.speedY = racketSpeed;
             if(this.gameView) {
-                this.gameView.update;
+                this.gameView.update();
             }
         } else {
             throw new TypeError('Speed of the tennis racket must be integers');
@@ -151,21 +96,22 @@ class TennisRacket{
             this.coordinateX = x;
             this.coordinateY = y;
             if(this.gameView) {
-                this.gameView.update;
+                this.gameView.update();
             }
         } else {
             throw new TypeError('The coordinates of the tennis racket must be integers');
         }
     }
 
-    setFillColor(color = 0x1E7392) {
-        if(Number.isInteger(color)) {
+    setFillColor(color = '#D96826') {
+        const typeString = 'string';
+        if(typeof color === typeString) {
             this.fillcolor = color;
             if(this.gameView) {
                 this.gameView.update;
             }
         } else {
-            throw new TypeError('The color of the tennis racket must be hexadecimal nuber in format 0x000000');
+            throw new TypeError('The color of the tennis racket must be string in format #000000');
         }
     }
     

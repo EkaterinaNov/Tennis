@@ -15,6 +15,10 @@ button.formField {
     padding: 0.2em 0.4em;
 }
 
+canvas {
+    max-width: auto;
+}
+
 .control {
     color: black;
     font: normal 1em sans-serif;
