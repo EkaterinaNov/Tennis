@@ -10,8 +10,9 @@
     constructor() {
         this.width = 800;
         this.height = 600;
+        return this;
     }
-    
+
     getCoordinate() {
         return {x: this.coordinateX, y: this.coordinateY};
     }

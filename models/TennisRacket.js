@@ -24,6 +24,7 @@ class TennisRacket{
         this.isLeft = isLeft;
         this.width = 28;
         this.height = 120;
+        return this;
     }
 
     getCoordinate() {
@@ -124,7 +125,7 @@ class TennisRacket{
     }
 
     destruct() {
-        this.stopMove;
+        this.stopMove();
         this.gameView = null;
     }
 }

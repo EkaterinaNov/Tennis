@@ -3,6 +3,7 @@
     class Gamer{
         name;
         score;
+        isWinner;
 
         leftTennisRacket;
         rightTennisRacket;
@@ -14,6 +15,8 @@
             if(typeof gamerName === typeString) {
                 this.name = gamerName;
                 this.score = 0;
+                this.isWinner = false;
+                return this;
             } else {
                 throw new TypeError('The name of the gamer must be string');
             }
@@ -29,6 +32,12 @@
 
         getInfo() {
             return {name: this.name, score: this.score};
+        }
+
+        resetPlayerData() {
+            this.name = '';
+            this.score = 0;
+            this.isWinner = false;
         }
 
         setView(view) {
@@ -77,6 +86,7 @@
             this.score++;
             this.gameView.updateScore();
             if(this.score === maxScore) {
+                this.isWinner = true;
                 this.gameBall.stopMove();
                 this.leftTennisRacket.stopMove();
                 this.rightTennisRacket.stopMove();

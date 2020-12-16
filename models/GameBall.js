@@ -39,6 +39,7 @@ class GameBall{
             this.secondGamer = secondGamer;
             this.soundGoalScored = soundGoalScored;
             this.impactSound = impactSound;
+            return this;
         } else {
             throw new TypeError('Height and width of the game ball must be integers');
         }
@@ -66,18 +67,18 @@ class GameBall{
         if ((this.coordinateX - this.radius <= coordLeftRacket.x + dimensionsLeftRacket.width) &&
                 (this.coordinateX - this.radius >= coordLeftRacket.x) && (this.coordinateY <= coordLeftRacket.y + dimensionsLeftRacket.height) &&
                 (this.coordinateY >= coordLeftRacket.y)) {
-            this.playImpactSound;
+            this.playImpactSound();
             this.speedX = -this.speedX;
         } else if ((this.coordinateX + this.radius <= coordRightRacket.x + dimensionsRightRacket.width) &&
                     (this.coordinateX + this.radius >= coordRightRacket.x) && (this.coordinateY <= coordRightRacket.y + dimensionsRightRacket.height) &&
                     (this.coordinateY >= coordRightRacket.y)) {
-            this.playImpactSound;
+            this.playImpactSound();
             this.speedX = -this.speedX;
         } else if (this.coordinateY - this.radius <= this.topBorder) {
-            this.playImpactSound;
+            this.playImpactSound();
             this.speedY = -this.speedY;
         } else if (this.coordinateY + this.radius >= this.bottomBorder) {
-            this.playImpactSound;
+            this.playImpactSound();
             this.speedY = -this.speedY;
         }
     }
@@ -91,7 +92,7 @@ class GameBall{
     }
     
     getRadius() {
-        return {radius: this.radius};
+        return this.radius;
     }
     
     getSpeed() {
@@ -109,8 +110,8 @@ class GameBall{
             this.gameView.update();
         }
         this.requestLink = window.requestAnimationFrame(this.move);
-        this.checkGoal;
-        this.checkCollision;
+        this.checkGoal();
+        this.checkCollision();
     }
 
     playGoalScored(){

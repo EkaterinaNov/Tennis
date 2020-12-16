@@ -14,26 +14,30 @@
     var secondGamer = new Gamer(secondGamerElement.textContent);
     buttonOnEntryPanelElement.addEventListener('click', ()=>{secondGamer.setName(secondGamerElement.textContent)});
 
+    //create audio
+    var soundGoalScored = new Audio;
+    var impactSound = new Audio;
+
     //create game table
     var gameTable = new GameTable();
 
     //create two tennis racket
     const gamePanelClass = 'gamePanel';
     const gamePanelElement = document.getElementsByClassName(gamePanelClass)[0];
-    const gamePanelElementWidth = parseInt(gamePanelElement.clientWidth);
+    //const gamePanelElementWidth = parseInt(gamePanelElement.clientWidth);
     var leftTennisRacket = new TennisRacket(gameTable, true);
     var rightTennisRacket = new TennisRacket(gameTable, false);
     rightTennisRacket.setFillColor(colors.rightRacketColor);
 
     //create gameBall
-    var gameBall = new GameBall(gameTable, leftTennisRacket, rightTennisRacket, firstGamer, secondGamer);
+    var gameBall = new GameBall(gameTable, leftTennisRacket, rightTennisRacket, firstGamer, secondGamer, soundGoalScored, impactSound);
 
     //looking for an element containing the game score
-    var scoreElementClass = 'gameScore';
-    var scoreElement = document.getElementsByClassName(scoreElementClass)[0];
+    const scoreElementClass = 'gameScore';
+    const scoreElement = document.getElementsByClassName(scoreElementClass)[0];
 
     //create view
-    var gameView = new CanvasView(gameTable, leftTennisRacket, rightTennisRacket, gameBall, firstGamer, secondGamer, scoreElement);
+    var gameView = new CanvasView(gameTable, leftTennisRacket, rightTennisRacket, gameBall, firstGamer, secondGamer, scoreElement, gamePanelElement);
 
     //set view all game objects
     gameTable.setView(gameView);
