@@ -117,3 +117,7 @@ ul.navGame {
 @media all and (max-width: 402px) {
     .gamePanel {width: 300px;}
 }
+
+@media all and (max-width: 350px) {
+    .gamePanel {margin: 5px 10px; width: calc(100% - 20px);}
+}

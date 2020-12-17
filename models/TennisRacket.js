@@ -18,14 +18,19 @@ class TennisRacket{
     isLeft;
 
     constructor(gameTable, isLeft = true) {
-        this.knownTableWidth = gameTable.getWidth();
-        this.rightBorder = this.knownTableWidth;
-        this.bottomBorder = gameTable.getHeight();
-        this.isLeft = isLeft;
-        this.width = 28;
-        this.height = 120;
-        this.setStartCoordinate();
-        return this;
+        const typeObject = 'object';
+        if(typeof(gameTable) === typeObject){
+            this.knownTableWidth = gameTable.getWidth();
+            this.rightBorder = this.knownTableWidth;
+            this.bottomBorder = gameTable.getHeight();
+            this.isLeft = isLeft;
+            this.width = 28;
+            this.height = 120;
+            this.setStartCoordinate();
+            return this;
+        } else {
+            throw new TypeError('Game table must be object type of someView');
+        }
     }
 
     getCoordinate() {
@@ -120,7 +125,7 @@ class TennisRacket{
         }
     }
     
-    startMoove() {
+    startMove() {
         this.requestLink = window.requestAnimationFrame(this.move);
     }
 

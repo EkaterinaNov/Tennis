@@ -165,6 +165,8 @@ class GameBall{
         }
     }
 
+    setStartSpeed() {}
+
     setFillColor(color ='#F7B53A') {
         const typeString = 'string';
         if(typeof color === typeString) {
@@ -177,7 +179,7 @@ class GameBall{
         }
     }
 
-    startMoove() {
+    startMove() {
         this.requestLink = window.requestAnimationFrame(this.move);
     }
 

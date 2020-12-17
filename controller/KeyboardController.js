@@ -7,11 +7,10 @@ class KeyboardController{
     gameTable;
     gameView;
 
-    elementForInsertView;
     timeOut;
     isTimerStart = false;
 
-    constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView, elementForInsertView) {
+    constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView) {
         this.firstGamer = firstGamer;
         this.secondGamer = secondGamer;
         this.leftTennisRacket = leftTennisRacket;
@@ -19,64 +18,73 @@ class KeyboardController{
         this.gameBall = gameBall;
         this.gameTable = gameTable;
         this.gameView = gameView;
-        this.elementForInsertView = elementForInsertView;
+        window.addEventListener("resize",() => {this.whenResize()}, true);
     }
 
     startGameLoop(){
-        document.body.addEventListener('keydown', this.shiftMoove());
+        document.body.addEventListener('keypress', this.shiftMove());
         document.body.addEventListener('keyup', this.shiftStop());
-        document.body.addEventListener('keydown', this.ctrlMoove());
+        document.body.addEventListener('keydown', this.ctrlMove());
         document.body.addEventListener('keyup', this.ctrlStop());
 
-        document.body.addEventListener('keydown', this.upMoove());
+        document.body.addEventListener('keydown', this.upMove());
         document.body.addEventListener('keyup', this.upStop());
-        document.body.addEventListener('keydown', this.downMoove());
+        document.body.addEventListener('keydown', this.downMove());
         document.body.addEventListener('keyup', this.downStop());
 
-        window.addEventListener("resize", this.whenResize, false);
+        if(this.leftTennisRacket) {
+            this.leftTennisRacket.startMove();
+            console.log(this.leftTennisRacket);
+        }
+        if(this.rightTennisRacket) {
+            this.rightTennisRacket.startMove();
+            console.log(this.rightTennisRacket);
+        }
     }
 
     checkResizePeriod() {
         const timeNow = new Date().getTime();
-        const period = this.startTime - timeNow;
-        const checkPeriod = 800;
+        const period = timeNow - this.startTime;
+        const checkPeriod = 100;
         if(period >= checkPeriod) {
-            this.startRecalculate;
+            this.startRecalculate();
             this.startTime = 0;
             clearInterval(this.timeOut);
             this.timeOut = null;
-            isTimerStart = false;
+            this.isTimerStart = false;
         }
     }
 
     whenResize() {
-        if(isTimerStart) {
+        if(this.isTimerStart) {
             this.startTime = new Date().getTime();
         } else {
             this.startTime = new Date().getTime();
-            this.timeOut = setInterval(this.checkResizePeriod, 1000/3);
-            isTimerStart = true;
+            this.timeOut = setInterval(() => {this.checkResizePeriod()}, 1000/3);
+            this.isTimerStart = true;
         }
     }
 
     startRecalculate() {
-        const gameTableWidth = elementForInsertView.clientWidth;
-        this.gameTable.recalculationParameters(gameTableWidth);
-        this.leftTennisRacket.recalculationParameters(gameTableWidth);
-        this.rightTennisRacket.recalculationParameters(gameTableWidth);
-        this.gameBall.recalculationParameters(gameTableWidth);
+        if(this.gameView) {
+            this.gameView.recalculateSize();
+        }
     }
 
-    shiftMoove(EO) {
-        const nameShift = 'Shift';
+    shiftMove(EO) {
+        debugger;
+        EO = EO || window.event;
+        const keyCodeShift = '16';
         const speed = -2;
-        if(EO.key === nameShift)
+        if(EO.key === keyCodeShift)
         {
             this.leftTennisRacket.setSpeed(speed);
         }
     }
 
     shiftStop(EO) {
+        debugger;
+        EO = EO || window.event;
         const nameShift = 'Shift';
         const speed = 0;
         if(EO.key === nameShift)
@@ -85,7 +93,8 @@ class KeyboardController{
         }
     }
 
-    ctrlMoove(EO) {
+    ctrlMove(EO) {
+        EO = EO || window.event;
         const nameCtrl = 'Control';
         const speed = 2;
         if(EO.key === nameCtrl)
@@ -95,6 +104,7 @@ class KeyboardController{
     }
 
     ctrlStop(EO) {
+        EO = EO || window.event;
         const nameCtrl = 'Control';
         const speed = 0;
         if(EO.key === nameCtrl)
@@ -103,7 +113,8 @@ class KeyboardController{
         }
     }
 
-    upMoove(EO) {
+    upMove(EO) {
+        EO = EO || window.event;
         const nameShift = 'ArrowUp';
         const speed = -2;
         if(EO.key === nameShift)
@@ -113,6 +124,7 @@ class KeyboardController{
     }
 
     upStop(EO) {
+        EO = EO || window.event;
         const nameShift = 'ArrowUp';
         const speed = 0;
         if(EO.key === nameShift)
@@ -121,7 +133,8 @@ class KeyboardController{
         }
     }
 
-    downMoove(EO) {
+    downMove(EO) {
+        EO = EO || window.event;
         const nameCtrl = 'ArrowDown';
         const speed = 2;
         if(EO.key === nameCtrl)
@@ -131,6 +144,7 @@ class KeyboardController{
     }
 
     downStop(EO) {
+        EO = EO || window.event;
         const nameCtrl = 'ArrowDown';
         const speed = 0;
         if(EO.key === nameCtrl)
@@ -140,12 +154,14 @@ class KeyboardController{
     }
 
     destruct() {
-        this.firstGamer.destruct();
-        this.secondGamer.destruct();
-        this.leftTennisRacket.destruct();
-        this.rightTennisRacket.destruct();
-        this.gameBall.destruct();
-        this.gameTable.destruct();
+        if(true){
+            this.firstGamer.destruct();
+            this.secondGamer.destruct();
+            this.leftTennisRacket.destruct();
+            this.rightTennisRacket.destruct();
+            this.gameBall.destruct();
+            this.gameTable.destruct();
+        }
 
         this.firstGamer = null;
         this.secondGamer = null;

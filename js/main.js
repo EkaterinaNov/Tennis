@@ -4,8 +4,8 @@
     //create two gamers
     const firstGamerNameClass = 'firstPlayerName';
     const secondGamerNameClass = 'secondPlayerName';
-    const buttonOnEntryPanelClass = 'button.formField';
-    const buttonOnEntryPanelElement = document.querySelector(buttonOnEntryPanelClass);
+    const buttonOnEntryPanelSelector = 'button.formField';
+    const buttonOnEntryPanelElement = document.querySelector(buttonOnEntryPanelSelector);
     
     var firstGamerElement = document.getElementsByClassName(firstGamerNameClass)[0];
     var secondGamerElement = document.getElementsByClassName(secondGamerNameClass)[0];
@@ -63,4 +63,8 @@
         //create game controller with use keyboard
         var gameController = new KeyboardController(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView, gamePanelElement);
     }
+
+    const startButtonElementSelector = 'button.start';
+    const startButtonElement = document.querySelector(startButtonElementSelector);
+    startButtonElement.addEventListener('click', ()=>{gameController.startGameLoop()});
 })()

@@ -33,7 +33,6 @@ class CanvasView {
         elementForInsertView.appendChild(this.canvasElement);
         this.canvasContext = this.canvasElement.getContext(canvasContextStr);
         this.recalculateSize();
-        this.update();
     }
 
     getViewCoordinate() {
@@ -50,6 +49,7 @@ class CanvasView {
         this.reculculateIndex = this.widthElementForInsertView / tableSize.width;
         this.canvasElement.setAttribute('width', Math.floor(tableSize.width * this.reculculateIndex));
         this.canvasElement.setAttribute('height', Math.floor(tableSize.height * this.reculculateIndex));
+        this.update();
     }
 
     showWinner() {
