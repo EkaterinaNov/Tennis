@@ -11,6 +11,7 @@ class KeyboardController{
     isTimerStart = false;
 
     requestLink;
+    isStartGame;
 
     constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView) {
         const typeObject = 'object';
@@ -25,6 +26,17 @@ class KeyboardController{
             this.gameTable = gameTable;
             this.gameView = gameView;
             window.addEventListener("resize",() => {this.whenResize()}, false);
+            this.isStartGame = false;
+
+            document.body.addEventListener('keydown', () => {this.leftUpMove()});
+            document.body.addEventListener('keyup', () => {this.leftUpStop()});
+            document.body.addEventListener('keydown', () => {this.leftDownMove()});
+            document.body.addEventListener('keyup', () => {this.leftDownStop()});
+
+            document.body.addEventListener('keydown', () => {this.rightUpMove()});
+            document.body.addEventListener('keyup', () => {this.rightUpStop()});
+            document.body.addEventListener('keydown', () => {this.rightDownMove()});
+            document.body.addEventListener('keyup', () => {this.rightDownStop()});
         } else {
             throw new TypeError('All parameters must be objects');
         }
@@ -86,7 +98,7 @@ class KeyboardController{
     move() {
         if(this.firstGamer.isWinner || this.secondGamer.isWinner)
         {
-            this.stopMove();
+            this.stopGameLoop();
             this.gameBall.setStartCoordinate();
             return;
         }
@@ -106,9 +118,9 @@ class KeyboardController{
 
     rightDownMove(EO) {
         EO = EO || window.event;
-        const nameCtrl = 'ArrowDown';
+        const nameArrowDown = 'ArrowDown';
         const speed = 4;
-        if(EO.key === nameCtrl)
+        if(EO.key === nameArrowDown)
         {
             this.rightTennisRacket.setSpeed(speed);
         }
@@ -116,9 +128,9 @@ class KeyboardController{
 
     rightDownStop(EO) {
         EO = EO || window.event;
-        const nameCtrl = 'ArrowDown';
+        const nameArrowDown = 'ArrowDown';
         const speed = 0;
-        if(EO.key === nameCtrl)
+        if(EO.key === nameArrowDown)
         {
             this.rightTennisRacket.setSpeed(speed);
         }
@@ -126,9 +138,9 @@ class KeyboardController{
     
     rightUpMove(EO) {
         EO = EO || window.event;
-        const nameShift = 'ArrowUp';
+        const nameArrowUp = 'ArrowUp';
         const speed = -4;
-        if(EO.key === nameShift)
+        if(EO.key === nameArrowUp)
         {
             this.rightTennisRacket.setSpeed(speed);
         }
@@ -136,24 +148,34 @@ class KeyboardController{
 
     rightUpStop(EO) {
         EO = EO || window.event;
-        const nameShift = 'ArrowUp';
+        const nameArrowUp = 'ArrowUp';
         const speed = 0;
-        if(EO.key === nameShift)
+        if(EO.key === nameArrowUp)
         {
             this.rightTennisRacket.setSpeed(speed);
         }
     }
 
-    startGameLoop(){
-        document.body.addEventListener('keydown', () => {this.leftUpMove()});
-        document.body.addEventListener('keyup', () => {this.leftUpStop()});
-        document.body.addEventListener('keydown', () => {this.leftDownMove()});
-        document.body.addEventListener('keyup', () => {this.leftDownStop()});
+    resetGameScore() {
+        if(this.firstGamer && this.secondGamer) {
+            this.firstGamer.resetScore();
+            this.firstGamer.isWinner = false;
+            this.secondGamer.resetScore();
+            this.secondGamer.isWinner = false;
+            this.gameView.updateScore();
+        }
+    }
 
-        document.body.addEventListener('keydown', () => {this.rightUpMove()});
-        document.body.addEventListener('keyup', () => {this.rightUpStop()});
-        document.body.addEventListener('keydown', () => {this.rightDownMove()});
-        document.body.addEventListener('keyup', () => {this.rightDownStop()});
+    startGameLoop(){
+        var zeroScore = 0;
+        if(this.firstGamer.isWinner || this.secondGamer.isWinner) {
+            this.resetGameScore();
+        }
+        if(this.firstGamer.getScore() === zeroScore && this.secondGamer.getScore() === zeroScore) {
+            this.setStartScene();
+        }
+        
+        this.isStartGame = true;
 
         this.startMove();
     }
@@ -169,6 +191,7 @@ class KeyboardController{
 
         if(this.gameBall) {
             this.gameBall.setStartCoordinate();
+            this.gameBall.setRandomSpeed();
         }
     }
 
@@ -176,8 +199,23 @@ class KeyboardController{
         this.requestLink = window.requestAnimationFrame(() => {this.move()});
     }
 
-    stopMove() {
+    stopGameLoop() {
         window.cancelAnimationFrame(this.requestLink);
+
+        this.isStartGame = false;
+    }
+
+    stopStartGameLoop(EO) {
+        EO = EO || window.event;
+        const codeSpace = 'Space';
+        if(EO.code === codeSpace)
+        {
+            if(this.isStartGame) {
+                this.stopGameLoop();
+            } else {
+                this.startGameLoop();
+            }
+        }
     }
 
     startRecalculate() {

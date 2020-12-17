@@ -9,7 +9,7 @@
 
     constructor() {
         this.width = 800;
-        this.height = 600;
+        this.height = 550;
         return this;
     }
 

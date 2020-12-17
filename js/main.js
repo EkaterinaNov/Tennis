@@ -67,4 +67,15 @@
     const startButtonElementSelector = 'button.start';
     const startButtonElement = document.querySelector(startButtonElementSelector);
     startButtonElement.addEventListener('click', ()=>{gameController.startGameLoop()});
+
+    const stopButtonElementSelector = 'button.stop';
+    const stopButtonElement = document.querySelector(stopButtonElementSelector);
+    stopButtonElement.addEventListener('click', ()=>{gameController.stopGameLoop()});
+
+    document.body.addEventListener('keydown', () => {gameController.stopStartGameLoop()}, false);
+
+    const resetScoreButtonElementSelector = 'button.resetScore';
+    const resetScoreButtonElement = document.querySelector(resetScoreButtonElementSelector);
+    resetScoreButtonElement.addEventListener('click', ()=>{gameController.resetGameScore();});
+
 })()
