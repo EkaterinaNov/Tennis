@@ -23,15 +23,19 @@
         }
         
         getName() {
-            return {name: this.name};
+            return this.name;
         }
 
         getScore() {
-            return {score: this.score};
+            return this.score;
         }
 
         getInfo() {
             return {name: this.name, score: this.score};
+        }
+
+        resetScore() {
+            this.score = 0;
         }
 
         resetPlayerData() {
@@ -87,9 +91,7 @@
             this.gameView.updateScore();
             if(this.score === maxScore) {
                 this.isWinner = true;
-                this.gameBall.stopMove();
-                this.leftTennisRacket.stopMove();
-                this.rightTennisRacket.stopMove();
+                this.gameBall.setSpeed(0, 0);
                 this.gameView.showWinner();
             }
         }

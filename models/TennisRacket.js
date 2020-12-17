@@ -13,7 +13,6 @@ class TennisRacket{
     bottomBorder;
     knownTableWidth;
 
-    requestLink;
     gameView;
     isLeft;
 
@@ -29,7 +28,7 @@ class TennisRacket{
             this.setStartCoordinate();
             return this;
         } else {
-            throw new TypeError('Game table must be object type of someView');
+            throw new TypeError('Game table must be object type of GameTable');
         }
     }
 
@@ -56,17 +55,16 @@ class TennisRacket{
     move() {
         if (this.coordinateY < this.topBorder) {
             this.speedY = 0;
-            this.coordinateY = this.topBorder;
+            this.coordinateY = this.topBorder + 1;
         } else if (this.coordinateY > this.bottomBorder - this.height) {
             this.speedY = 0;
-            this.coordinateY = this.bottomBorder;
+            this.coordinateY = this.bottomBorder - this.height - 1;
         } else {
             this.coordinateY += this.speedY;
         }
         if(this.gameView) {
             this.gameView.update();
         }
-        this.requestLink = window.requestAnimationFrame(this.move);
     }
 
     setView(view) {
@@ -124,17 +122,8 @@ class TennisRacket{
             throw new TypeError('The color of the tennis racket must be string in format #000000');
         }
     }
-    
-    startMove() {
-        this.requestLink = window.requestAnimationFrame(this.move);
-    }
-
-    stopMove() {
-        window.cancelAnimationFrame(this.requestLink);
-    }
 
     destruct() {
-        this.stopMove();
         this.gameView = null;
     }
 }

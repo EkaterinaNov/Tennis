@@ -10,35 +10,23 @@ class KeyboardController{
     timeOut;
     isTimerStart = false;
 
+    requestLink;
+
     constructor(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView) {
-        this.firstGamer = firstGamer;
-        this.secondGamer = secondGamer;
-        this.leftTennisRacket = leftTennisRacket;
-        this.rightTennisRacket = rightTennisRacket;
-        this.gameBall = gameBall;
-        this.gameTable = gameTable;
-        this.gameView = gameView;
-        window.addEventListener("resize",() => {this.whenResize()}, true);
-    }
-
-    startGameLoop(){
-        document.body.addEventListener('keypress', this.shiftMove());
-        document.body.addEventListener('keyup', this.shiftStop());
-        document.body.addEventListener('keydown', this.ctrlMove());
-        document.body.addEventListener('keyup', this.ctrlStop());
-
-        document.body.addEventListener('keydown', this.upMove());
-        document.body.addEventListener('keyup', this.upStop());
-        document.body.addEventListener('keydown', this.downMove());
-        document.body.addEventListener('keyup', this.downStop());
-
-        if(this.leftTennisRacket) {
-            this.leftTennisRacket.startMove();
-            console.log(this.leftTennisRacket);
-        }
-        if(this.rightTennisRacket) {
-            this.rightTennisRacket.startMove();
-            console.log(this.rightTennisRacket);
+        const typeObject = 'object';
+        if(typeof(firstGamer) === typeObject && typeof(secondGamer) === typeObject && typeof(leftTennisRacket) === typeObject &&
+             typeof(rightTennisRacket) === typeObject && typeof(gameBall) === typeObject && typeof(gameTable) === typeObject &&
+             typeof(gameView) === typeObject){
+            this.firstGamer = firstGamer;
+            this.secondGamer = secondGamer;
+            this.leftTennisRacket = leftTennisRacket;
+            this.rightTennisRacket = rightTennisRacket;
+            this.gameBall = gameBall;
+            this.gameTable = gameTable;
+            this.gameView = gameView;
+            window.addEventListener("resize",() => {this.whenResize()}, false);
+        } else {
+            throw new TypeError('All parameters must be objects');
         }
     }
 
@@ -55,6 +43,149 @@ class KeyboardController{
         }
     }
 
+    leftDownMove(EO) {
+        EO = EO || window.event;
+        const codeS = 'KeyS';
+        const speed = 4;
+        if(EO.code === codeS)
+        {
+            this.leftTennisRacket.setSpeed(speed);
+        }
+    }
+
+    leftDownStop(EO) {
+        EO = EO || window.event;
+        const codeS = 'KeyS';
+        const speed = 0;
+        if(EO.code === codeS)
+        {
+            this.leftTennisRacket.setSpeed(speed);
+        }
+    }
+
+    leftUpMove(EO) {
+        EO = EO || window.event;
+        const codeW = 'KeyW';
+        const speed = -4;
+        if(EO.code === codeW)
+        {
+            this.leftTennisRacket.setSpeed(speed);
+        }
+    }
+
+    leftUpStop(EO) {
+        EO = EO || window.event;
+        const codeW = 'KeyW';
+        const speed = 0;
+        if(EO.code === codeW)
+        {
+            this.leftTennisRacket.setSpeed(speed);
+        }
+    }
+
+    move() {
+        if(this.firstGamer.isWinner || this.secondGamer.isWinner)
+        {
+            this.stopMove();
+            this.gameBall.setStartCoordinate();
+            return;
+        }
+        if(this.leftTennisRacket) {
+            this.leftTennisRacket.move();
+        }
+
+        if(this.rightTennisRacket) {
+            this.rightTennisRacket.move();
+        }
+
+        if(this.gameBall) {
+            this.gameBall.move();
+        }
+        this.requestLink = window.requestAnimationFrame(() => {this.move()});
+    }
+
+    rightDownMove(EO) {
+        EO = EO || window.event;
+        const nameCtrl = 'ArrowDown';
+        const speed = 4;
+        if(EO.key === nameCtrl)
+        {
+            this.rightTennisRacket.setSpeed(speed);
+        }
+    }
+
+    rightDownStop(EO) {
+        EO = EO || window.event;
+        const nameCtrl = 'ArrowDown';
+        const speed = 0;
+        if(EO.key === nameCtrl)
+        {
+            this.rightTennisRacket.setSpeed(speed);
+        }
+    }
+    
+    rightUpMove(EO) {
+        EO = EO || window.event;
+        const nameShift = 'ArrowUp';
+        const speed = -4;
+        if(EO.key === nameShift)
+        {
+            this.rightTennisRacket.setSpeed(speed);
+        }
+    }
+
+    rightUpStop(EO) {
+        EO = EO || window.event;
+        const nameShift = 'ArrowUp';
+        const speed = 0;
+        if(EO.key === nameShift)
+        {
+            this.rightTennisRacket.setSpeed(speed);
+        }
+    }
+
+    startGameLoop(){
+        document.body.addEventListener('keydown', () => {this.leftUpMove()});
+        document.body.addEventListener('keyup', () => {this.leftUpStop()});
+        document.body.addEventListener('keydown', () => {this.leftDownMove()});
+        document.body.addEventListener('keyup', () => {this.leftDownStop()});
+
+        document.body.addEventListener('keydown', () => {this.rightUpMove()});
+        document.body.addEventListener('keyup', () => {this.rightUpStop()});
+        document.body.addEventListener('keydown', () => {this.rightDownMove()});
+        document.body.addEventListener('keyup', () => {this.rightDownStop()});
+
+        this.startMove();
+    }
+
+    setStartScene() {
+        if(this.leftTennisRacket) {
+            this.leftTennisRacket.setStartCoordinate();
+        }
+
+        if(this.rightTennisRacket) {
+            this.rightTennisRacket.setStartCoordinate();
+        }
+
+        if(this.gameBall) {
+            this.gameBall.setStartCoordinate();
+        }
+    }
+
+    startMove() {
+        this.requestLink = window.requestAnimationFrame(() => {this.move()});
+    }
+
+    stopMove() {
+        window.cancelAnimationFrame(this.requestLink);
+    }
+
+    startRecalculate() {
+        if(this.gameView) {
+            this.gameView.recalculateSize();
+        }
+    }
+    
     whenResize() {
         if(this.isTimerStart) {
             this.startTime = new Date().getTime();
@@ -65,96 +196,8 @@ class KeyboardController{
         }
     }
 
-    startRecalculate() {
-        if(this.gameView) {
-            this.gameView.recalculateSize();
-        }
-    }
-
-    shiftMove(EO) {
-        debugger;
-        EO = EO || window.event;
-        const keyCodeShift = '16';
-        const speed = -2;
-        if(EO.key === keyCodeShift)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    shiftStop(EO) {
-        debugger;
-        EO = EO || window.event;
-        const nameShift = 'Shift';
-        const speed = 0;
-        if(EO.key === nameShift)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    ctrlMove(EO) {
-        EO = EO || window.event;
-        const nameCtrl = 'Control';
-        const speed = 2;
-        if(EO.key === nameCtrl)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    ctrlStop(EO) {
-        EO = EO || window.event;
-        const nameCtrl = 'Control';
-        const speed = 0;
-        if(EO.key === nameCtrl)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    upMove(EO) {
-        EO = EO || window.event;
-        const nameShift = 'ArrowUp';
-        const speed = -2;
-        if(EO.key === nameShift)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    upStop(EO) {
-        EO = EO || window.event;
-        const nameShift = 'ArrowUp';
-        const speed = 0;
-        if(EO.key === nameShift)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    downMove(EO) {
-        EO = EO || window.event;
-        const nameCtrl = 'ArrowDown';
-        const speed = 2;
-        if(EO.key === nameCtrl)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
-    downStop(EO) {
-        EO = EO || window.event;
-        const nameCtrl = 'ArrowDown';
-        const speed = 0;
-        if(EO.key === nameCtrl)
-        {
-            this.leftTennisRacket.setSpeed(speed);
-        }
-    }
-
     destruct() {
-        if(true){
+        if(this.firstGamer && this.secondGamer && this.leftTennisRacket && this.rightTennisRacket && this.gameBall && this.gameTable){
             this.firstGamer.destruct();
             this.secondGamer.destruct();
             this.leftTennisRacket.destruct();

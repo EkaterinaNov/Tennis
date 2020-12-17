@@ -12,7 +12,6 @@ class GameBall{
     bottomBorder;
 
     knownTableWidth;
-    requestLink;
 
     leftTennisRacket;
     rightTennisRacket;
@@ -39,9 +38,10 @@ class GameBall{
             this.secondGamer = secondGamer;
             this.soundGoalScored = soundGoalScored;
             this.impactSound = impactSound;
+            this.setRandomSpeed();
             return this;
         } else {
-            throw new TypeError('Height and width of the game ball must be integers');
+            throw new TypeError('All parameters must be objects');
         }
     }
 
@@ -49,11 +49,11 @@ class GameBall{
         if(this.coordinateX <= this.leftBorder + this.radius) {
             this.playGoalScored;
             this.speedX = -this.speedX;
-            secondGamer.increaseScore();
+            this.secondGamer.increaseScore();
         } else if(this.coordinateX >= this.rightBorder - this.radius) {
             this.playGoalScored;
             this.speedX = -this.speedX;
-            firstGamer.increaseScore();
+            this.firstGamer.increaseScore();
         }
     }
 
@@ -103,13 +103,16 @@ class GameBall{
         return this.gameView;
     }
 
+    getRandomIntInclusive(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     move() {
         this.coordinateX += this.speedX;
         this.coordinateY += this.speedY;
         if(this.gameView) {
             this.gameView.update();
         }
-        this.requestLink = window.requestAnimationFrame(this.move);
         this.checkGoal();
         this.checkCollision();
     }
@@ -122,6 +125,23 @@ class GameBall{
     playImpactSound() {
         this.impactSound.currentTime = 0;
         this.impactSound.play();
+    }
+    
+    setRandomSpeed() {
+        var bound = 0.5;
+        var dice = Math.random();
+        if (dice < bound) {
+            this.speedX = this.getRandomIntInclusive(5, 8);
+        } else {
+            this.speedX = -(this.getRandomIntInclusive(5, 8));
+        }
+
+        dice = Math.random();
+        if(dice < bound) {
+            this.speedY = -(this.getRandomIntInclusive(2, 4));
+        } else {
+            this.speedY = this.getRandomIntInclusive(2, 4);
+        }
     }
 
     setView(view) {
@@ -165,8 +185,6 @@ class GameBall{
         }
     }
 
-    setStartSpeed() {}
-
     setFillColor(color ='#F7B53A') {
         const typeString = 'string';
         if(typeof color === typeString) {
@@ -179,16 +197,7 @@ class GameBall{
         }
     }
 
-    startMove() {
-        this.requestLink = window.requestAnimationFrame(this.move);
-    }
-
-    stopMove() {
-        window.cancelAnimationFrame(this.requestLink);
-    }
-
     destruct() {
-        this.stopMove;
         this.leftTennisRacket = null;
         this.rightTennisRacket = null;
         this.firstGamer = null;

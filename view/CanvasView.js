@@ -53,6 +53,7 @@ class CanvasView {
     }
 
     showWinner() {
+        this.updateScore();
         var winnerName;
         if(this.firstGamer.isWinner) {
             winnerName = this.firstGamer.getName();
@@ -63,7 +64,9 @@ class CanvasView {
     }
 
     updateScore() {
-        this.elementForInsertScore.textContent = this.firstGamer.getScore() + ' : ' + this.secondGamer.getScore();
+        if(this.firstGamer && this.secondGamer) {
+            this.elementForInsertScore.textContent = this.firstGamer.getScore() + ' : ' + this.secondGamer.getScore();
+        }
     }
 
     update() {
