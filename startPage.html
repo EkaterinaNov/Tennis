@@ -14,6 +14,7 @@
             <ul class="navGame">
                 <li><button class="control start">Старт</button></li>
                 <li><button class="control stop">Стоп</button></li>
+                <li><button class="control showRules">Правила</button></li>
                 <li><button class="control resetScore">Сбросить счет</button></li>
                 <li><button class="control rename">Изменить имена игроков</button></li>
             </ul>
@@ -26,6 +27,23 @@
           <label class="formField" for="secondPlayer">Второй игрок</label>
           <input class="formField" id="secondPlayer" name="secondPlayer" type="text">
           <button class="formField">OK</button>
+        </div>
+
+        <div class="winnerPanel">
+          <label class="explanatoryInscription">Победитель</label>
+          <label class="infoField" id="winnerName" name="winnerName"></label>
+          <button class="formField" id="infoField">OK</button>
+        </div>
+
+        <div class="gameRulesPanel" id="keyboardRules">
+          <p>Старт, ctrl &mdash; начать игру</p>
+          <p>Левая ракетка:</p>
+          <p>w &mdash; вверх</p>
+          <p>s &mdash; вниз</p>
+          <p>Правая ракетка:</p>
+          <p>&uarr; &mdash; вверх</p>
+          <p>&darr; &mdash; вниз</p>
+          <button  class="formField" id="keyRule">OK</button>
         </div>
 
         <div class="infoPanel">

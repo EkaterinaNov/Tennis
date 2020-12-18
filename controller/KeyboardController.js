@@ -207,8 +207,8 @@ class KeyboardController{
 
     stopStartGameLoop(EO) {
         EO = EO || window.event;
-        const codeSpace = 'Space';
-        if(EO.code === codeSpace)
+        const keyName = 'Control';
+        if(EO.key === keyName)
         {
             if(this.isStartGame) {
                 this.stopGameLoop();

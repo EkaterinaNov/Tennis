@@ -7,8 +7,20 @@ button {
     outline: none;
 }
 
+button:active {
+    background-color: #E3DDD3;
+}
+
 button.formField {
     margin: 1em auto 2em auto;
+    background-color: white;
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    padding: 0.2em 0.4em;
+}
+
+button.infoField {
+    margin: 1em auto;
     background-color: white;
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
@@ -35,7 +47,14 @@ canvas {
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
-    transform: translate3d(0px, -350px, 0px);
+    transform: translate3d(0px, -400px, 0px);
+}
+
+.explanatoryInscription {
+    display: block;
+    margin: 0.5em auto;
+    text-align: center;
+    font: normal 2em sans-serif;
 }
 
 .formField {
@@ -49,8 +68,30 @@ canvas {
     position: relative;
 }
 
+.gameRulesPanel#keyboardRules {
+    width: 20em;
+    height: 16em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -8em 0 0 -10em;
+    background-color: rgb(247,241,230);
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    visibility: hidden;
+}
+
 input {
     outline: none;
+}
+
+.infoField {
+    display: block;
+    margin: 0.5em;
+    font: normal 1em sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    color: black;
 }
 
 .infoText {
@@ -75,6 +116,10 @@ input[type="text"] {
     margin: auto;
 }
 
+p {
+    margin: 0.7em 1em;
+}
+
 li {
     display: inline-block;
     margin: 0.5em 1em;
@@ -94,6 +139,18 @@ ul.navGame {
     margin: 0;
 }
 
+.winnerPanel {
+    width: 14em;
+    height: 10em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -7em 0 0 -5em;
+    background-color: rgb(247,241,230);
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    visibility: hidden;
+}
 
 @media all and (max-width: 1202px) {
     .gamePanel {width: 800px;}

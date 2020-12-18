@@ -12,10 +12,13 @@ class CanvasView {
     elementForInsertView;
     widthElementForInsertView;
     elementForInsertScore;
+    winnerPanelElement;
+    forInsertWinnerNameElement;
     canvasElement;
     canvasContext;
 
-    constructor(gameTable, leftTennisRacket, rightTennisRacket, gameBall, firstGamer, secondGamer, elementForInsertScore, elementForInsertView) {
+    constructor(gameTable, leftTennisRacket, rightTennisRacket, gameBall, firstGamer, secondGamer, elementForInsertScore, elementForInsertView,
+                    winnerPanelElement, forInsertWinnerNameElement) {
         this.gameTable = gameTable;
         this.leftTennisRacket = leftTennisRacket;
         this.rightTennisRacket = rightTennisRacket;
@@ -24,6 +27,8 @@ class CanvasView {
         this.secondGamer = secondGamer;
         this.elementForInsertScore = elementForInsertScore;
         this.elementForInsertView = elementForInsertView;
+        this.winnerPanelElement = winnerPanelElement;
+        this.forInsertWinnerNameElement = forInsertWinnerNameElement;
 
         const canvasClass = 'canvas';
         const setCanvasClass = 'tennisGame';
@@ -60,7 +65,10 @@ class CanvasView {
         } else {
             winnerName = this.secondGamer.getName();
         }
-        alert(`Winner\n${winnerName}`);
+        if(this.winnerPanelElement) {
+            this.winnerPanelElement.style.visibility = 'visible';
+            this.forInsertWinnerNameElement.textContent = winnerName;
+        }
     }
 
     updateScore() {

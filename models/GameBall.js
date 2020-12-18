@@ -47,11 +47,11 @@ class GameBall{
 
     checkGoal() {
         if(this.coordinateX <= this.leftBorder + this.radius) {
-            this.playGoalScored;
+            this.playGoalScored();
             this.speedX = -this.speedX;
             this.secondGamer.increaseScore();
         } else if(this.coordinateX >= this.rightBorder - this.radius) {
-            this.playGoalScored;
+            this.playGoalScored();
             this.speedX = -this.speedX;
             this.firstGamer.increaseScore();
         }
@@ -65,13 +65,15 @@ class GameBall{
         var dimensionsRightRacket = this.rightTennisRacket.getDimensions();
 
         if ((this.coordinateX - this.radius <= coordLeftRacket.x + dimensionsLeftRacket.width) &&
-                (this.coordinateX - this.radius >= coordLeftRacket.x) && (this.coordinateY <= coordLeftRacket.y + dimensionsLeftRacket.height) &&
-                (this.coordinateY >= coordLeftRacket.y)) {
+                (this.coordinateX - this.radius >= coordLeftRacket.x) && 
+                (((this.coordinateY - this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) && (this.coordinateY - this.radius >= coordLeftRacket.y)) || 
+                ((this.coordinateY + this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) &&(this.coordinateY + this.radius >= coordLeftRacket.y)))) {
             this.playImpactSound();
             this.speedX = -this.speedX;
         } else if ((this.coordinateX + this.radius <= coordRightRacket.x + dimensionsRightRacket.width) &&
-                    (this.coordinateX + this.radius >= coordRightRacket.x) && (this.coordinateY <= coordRightRacket.y + dimensionsRightRacket.height) &&
-                    (this.coordinateY >= coordRightRacket.y)) {
+                    (this.coordinateX + this.radius >= coordRightRacket.x) &&
+                    (((this.coordinateY - this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) && (this.coordinateY - this.radius >= coordLeftRacket.y)) || 
+                ((this.coordinateY + this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) &&(this.coordinateY + this.radius >= coordLeftRacket.y)))) {
             this.playImpactSound();
             this.speedX = -this.speedX;
         } else if (this.coordinateY - this.radius <= this.topBorder) {
