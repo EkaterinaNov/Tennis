@@ -13,8 +13,8 @@ class KeyboardController{
     timeOut;
     isTimerStart = false;
 
-    leftRacketTouch;
-    rightRacketTouch;
+    leftRacketTouch = null;
+    rightRacketTouch = null;
 
     requestLink;
     isStartGame;
@@ -54,7 +54,7 @@ class KeyboardController{
             this.gameTableElement.addEventListener("touchstart", () => {this.touchStartMove()}, false);
             this.gameTableElement.addEventListener("touchend", () => {this.touchEndMove()}, false);
             this.gameTableElement.addEventListener("touchcancel", () => {this.touchCanselMove()}, false);
-            this.gameTableElement.addEventListener("touchmove", () => {this.touchMove()}, false);
+            this.gameTableElement.addEventListener("touchmove", () => {this.touchMoveAction()}, { passive: false });
         } else {
             throw new TypeError('All parameters must be objects');
         }
@@ -251,6 +251,7 @@ class KeyboardController{
 
     touchStartMove(EO) {
         EO = EO || window.event;
+        EO.preventDefault();
         var touches = EO.changedTouches;
         var leftRacketCoord = this.leftTennisRacket.getCoordinate();
         var leftRacketDimensions = this.leftTennisRacket.getDimensions();
@@ -281,46 +282,66 @@ class KeyboardController{
         }
     }
 
-    touchMove(EO) {
-        EO = EO || window.event;
-        var touches = EO.changedTouches;
-        var difference;
-        for (var i = 0; i < touches.length; i++) {
-            if(this.leftRacketTouch.identifier === touches[i].identifier) {
-                difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
-                this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
-            } else if(this.rightRacketTouch.identifier === touches[i].identifier) {
-                difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
-                this.rightRacketTouch.setCoordinateY(this.rightRacketTouch.getCoordinateY() + difference);
+    touchMoveAction(EO) {
+        if(this.leftRacketTouch || this.rightRacketTouch) {
+            EO = EO || window.event;
+            EO.preventDefault();
+            var touches = EO.changedTouches;
+            var difference;
+            
+            for (var i = 0; i < touches.length; i++) {
+                if(this.leftRacketTouch) {
+                    if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                        difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
+                        this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
+                    }
+                } else{
+                        if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                        difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
+                        this.rightTennisRacket.setCoordinateY(this.rightTennisRacket.getCoordinateY() + difference);
+                    }
+                }
             }
         }
     }
 
     touchEndMove(EO) {
-        EO = EO || window.event;
-        var touches = EO.changedTouches;
-        var difference;
-        for (var i = 0; i < touches.length; i++) {
-            if(this.leftRacketTouch.identifier === touches[i].identifier) {
-                difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
-                this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
-                this.leftRacketTouch = null;
-            } else if(this.rightRacketTouch.identifier === touches[i].identifier) {
-                difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
-                this.rightRacketTouch.setCoordinateY(this.rightRacketTouch.getCoordinateY() + difference);
-                this.rightRacketTouch = null;
+        if(this.leftRacketTouch || this.rightRacketTouch) {
+            EO = EO || window.event;
+            var touches = EO.changedTouches;
+            var difference;
+            for (var i = 0; i < touches.length; i++) {
+                if(this.leftRacketTouch) {
+                    if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                        difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
+                        this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
+                        this.leftRacketTouch = null;
+                    }
+                } else {
+                        if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                        difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
+                        this.rightRacketTouch.setCoordinateY(this.rightRacketTouch.getCoordinateY() + difference);
+                        this.rightRacketTouch = null;
+                    }
+                }
             }
         }
     }
 
     touchCanselMove(EO) {
-        EO = EO || window.event;
-        var touches = EO.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            if(this.leftRacketTouch.identifier === touches[i].identifier) {
-                this.leftRacketTouch = null;
-            } else if(this.rightRacketTouch.identifier === touches[i].identifier) {
-                this.rightRacketTouch = null;
+        if(this.leftRacketTouch || this.rightRacketTouch) {
+            EO = EO || window.event;
+            var touches = EO.changedTouches;
+            for (var i = 0; i < touches.length; i++) {
+                if(this.leftRacketTouch) {
+                    if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                        this.leftRacketTouch = null;
+                    }
+                } else {
+                    if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                        this.rightRacketTouch = null;
+                    }
+                }
             }
         }
     }
