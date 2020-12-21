@@ -36,6 +36,10 @@ class TennisRacket{
         return {x: this.coordinateX, y: this.coordinateY};
     }
 
+    getCoordinateY() {
+        return this.coordinateY;
+    }
+
     getFillColor() {
         return this.fillcolor;
     }

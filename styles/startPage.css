@@ -47,7 +47,7 @@ canvas {
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
-    transform: translate3d(0px, -450px, 0px);
+    transform: translate3d(0px, -500px, 0px);
 }
 
 .explanatoryInscription {

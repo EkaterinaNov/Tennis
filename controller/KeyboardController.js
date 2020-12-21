@@ -50,6 +50,11 @@ class KeyboardController{
             document.body.addEventListener('keyup', () => {this.rightUpStop()});
             document.body.addEventListener('keydown', () => {this.rightDownMove()});
             document.body.addEventListener('keyup', () => {this.rightDownStop()});
+
+            this.gameTableElement.addEventListener("touchstart", () => {this.touchStartMove()}, false);
+            this.gameTableElement.addEventListener("touchend", () => {this.touchEndMove()}, false);
+            this.gameTableElement.addEventListener("touchcancel", () => {this.touchCanselMove()}, false);
+            this.gameTableElement.addEventListener("touchmove", () => {this.touchMove()}, false);
         } else {
             throw new TypeError('All parameters must be objects');
         }
@@ -244,13 +249,81 @@ class KeyboardController{
         }
     }
 
-    touchStartMove() {}
+    touchStartMove(EO) {
+        EO = EO || window.event;
+        var touches = EO.changedTouches;
+        var leftRacketCoord = this.leftTennisRacket.getCoordinate();
+        var leftRacketDimensions = this.leftTennisRacket.getDimensions();
+        var rightRacketCoord = this.rightTennisRacket.getCoordinate();
+        var rightRacketDimensions = this.rightTennisRacket.getDimensions();
+        var gameTablePageCoord = this.gameTable.getCoordinateOnPage();
+        const extraDistance = 10;
+        const sidesNumber = 2;
 
-    touchEndMove() {}
+        var leftRacketData = {x: gameTablePageCoord.x + Math.floor(leftRacketCoord.x * this.viewIndex) - extraDistance,
+            y:gameTablePageCoord.y + Math.floor(leftRacketCoord.y * this.viewIndex) - extraDistance,
+            width: Math.floor(leftRacketDimensions.width * this.viewIndex) + extraDistance * sidesNumber,
+            height: Math.floor(leftRacketDimensions.height * this.viewIndex) + extraDistance * sidesNumber};
 
-    touchCanselMove() {}
+        var rightRacketData = {x: gameTablePageCoord.x + Math.floor(rightRacketCoord.x * this.viewIndex) - extraDistance,
+            y:gameTablePageCoord.y + Math.floor(rightRacketCoord.y * this.viewIndex) - extraDistance,
+            width: Math.floor(rightRacketDimensions.width * this.viewIndex) + extraDistance * sidesNumber,
+            height: Math.floor(rightRacketDimensions.height * this.viewIndex) + extraDistance * sidesNumber};
 
-    touchMove() {}
+        for (var i = 0; i < touches.length; i++) {
+            if(touches[i].pageX > leftRacketData.x && touches[i].pageX < leftRacketData.x + leftRacketData.width &&
+                touches[i].pageY > leftRacketData.y && touches[i].pageY < leftRacketData.y + leftRacketData.height) {
+                    this.leftRacketTouch = this.copyTouch(touches[i]);
+            } else if(touches[i].pageX > rightRacketData.x && touches[i].pageX < rightRacketData.x + rightRacketData.width &&
+                touches[i].pageY > rightRacketData.y && touches[i].pageY < rightRacketData.y + rightRacketData.height) {
+                    this.rightRacketTouch = this.copyTouch(touches[i]);
+            }
+        }
+    }
+
+    touchMove(EO) {
+        EO = EO || window.event;
+        var touches = EO.changedTouches;
+        var difference;
+        for (var i = 0; i < touches.length; i++) {
+            if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
+                this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
+            } else if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
+                this.rightRacketTouch.setCoordinateY(this.rightRacketTouch.getCoordinateY() + difference);
+            }
+        }
+    }
+
+    touchEndMove(EO) {
+        EO = EO || window.event;
+        var touches = EO.changedTouches;
+        var difference;
+        for (var i = 0; i < touches.length; i++) {
+            if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
+                this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
+                this.leftRacketTouch = null;
+            } else if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
+                this.rightRacketTouch.setCoordinateY(this.rightRacketTouch.getCoordinateY() + difference);
+                this.rightRacketTouch = null;
+            }
+        }
+    }
+
+    touchCanselMove(EO) {
+        EO = EO || window.event;
+        var touches = EO.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                this.leftRacketTouch = null;
+            } else if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                this.rightRacketTouch = null;
+            }
+        }
+    }
     
     whenResize() {
         if(this.isTimerStart) {
@@ -280,4 +353,8 @@ class KeyboardController{
         this.gameBall = null;
         this.gameTable = null;
     }
+
+    copyTouch({ identifier, pageX, pageY }) {
+        return { identifier, pageX, pageY };
+      }
 }

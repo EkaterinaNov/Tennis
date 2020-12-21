@@ -19,6 +19,10 @@
         return {x: this.coordinateX, y: this.coordinateY};
     }
 
+    getCoordinateOnPage() {
+        return {x: this.coordinatePageX, y: this.coordinatePageY};
+    }
+
     getFillColor() {
         return this.fillcolor;
     }
