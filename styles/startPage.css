@@ -83,11 +83,11 @@ canvas {
 
 .gameRulesPanel#touchRules {
     width: 12em;
-    height: 10em;
+    height: 11em;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -5em 0 0 -6em;
+    margin: -5.5em 0 0 -6em;
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
