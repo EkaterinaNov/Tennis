@@ -26,7 +26,7 @@
           <input class="formField" id="firstPlayer" name="firstPlayer" type="text">
           <label class="formField" for="secondPlayer">Второй игрок</label>
           <input class="formField" id="secondPlayer" name="secondPlayer" type="text">
-          <button class="formField">OK</button>
+          <button class="formField" id="enterGamers">OK</button>
         </div>
 
         <div class="winnerPanel">
@@ -37,6 +37,7 @@
 
         <div class="gameRulesPanel" id="keyboardRules">
           <p>Старт, ctrl &mdash; начать игру</p>
+          <p>Стоп, ctrl &mdash; пауза</p>
           <p>Левая ракетка:</p>
           <p>w &mdash; вверх</p>
           <p>s &mdash; вниз</p>
@@ -44,6 +45,13 @@
           <p>&uarr; &mdash; вверх</p>
           <p>&darr; &mdash; вниз</p>
           <button  class="formField" id="keyRule">OK</button>
+        </div>
+
+        <div class="gameRulesPanel" id="touchRules">
+          <p>Старт &mdash; начать игру</p>
+          <p>Стоп &mdash; пауза</p>
+          <p>Нажать на ракетку и двигать &uarr; или &darr;</p>
+          <button  class="formField" id="touchRule">OK</button>
         </div>
 
         <div class="infoPanel">

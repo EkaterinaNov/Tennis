@@ -111,6 +111,17 @@ class TennisRacket{
         }
     }
 
+    setCoordinateY(y) {
+        if(Number.isInteger(y)) {
+            this.coordinateY = y;
+            if(this.gameView) {
+                this.gameView.update();
+            }
+        } else {
+            throw new TypeError('The coordinates of the tennis racket must be integers');
+        }
+    }
+
     setFillColor(color = '#D96826') {
         const typeString = 'string';
         if(typeof color === typeString) {

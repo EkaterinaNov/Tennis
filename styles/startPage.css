@@ -47,7 +47,7 @@ canvas {
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;
-    transform: translate3d(0px, -400px, 0px);
+    transform: translate3d(0px, -450px, 0px);
 }
 
 .explanatoryInscription {
@@ -70,11 +70,24 @@ canvas {
 
 .gameRulesPanel#keyboardRules {
     width: 20em;
-    height: 16em;
+    height: 18em;
     position: absolute;
     top: 50%;
     left: 50%;
     margin: -8em 0 0 -10em;
+    background-color: rgb(247,241,230);
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+    visibility: hidden;
+}
+
+.gameRulesPanel#touchRules {
+    width: 12em;
+    height: 10em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -5em 0 0 -6em;
     background-color: rgb(247,241,230);
     border: 0.1em solid rgb(217,176,151);
     border-radius: 0.5em;

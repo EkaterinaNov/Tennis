@@ -84,7 +84,7 @@
         pastNameElement.textContent = secondPlayerNameValue;
     }
 
-    const buttonFormFieldSelector = 'button.formField';
-    const buttonFormFieldElement = document.querySelector(buttonFormFieldSelector);
-    buttonFormFieldElement.addEventListener('click', validateEntryPanel);
+    const buttonOnEntryPanelId = 'enterGamers';
+    const buttonOnEntryPanelElement = document.getElementById(buttonOnEntryPanelId);
+    buttonOnEntryPanelElement.addEventListener('click', validateEntryPanel);
 })()

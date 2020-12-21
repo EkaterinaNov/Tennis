@@ -232,6 +232,7 @@ class KeyboardController{
             this.timeOut = setInterval(() => {this.checkResizePeriod()}, 1000/3);
             this.isTimerStart = true;
         }
+        this.stopGameLoop();
     }
 
     destruct() {

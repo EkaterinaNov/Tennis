@@ -48,6 +48,10 @@ class CanvasView {
         };
     }
 
+    getRecalculateIndex() {
+        return this.reculculateIndex;
+    }
+
     recalculateSize() {
         var tableSize = this.gameTable.getDimensions();
         this.widthElementForInsertView = this.elementForInsertView.clientWidth;
