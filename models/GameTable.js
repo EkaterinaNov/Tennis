@@ -1,5 +1,7 @@
 //store information about game table element(div, canvas, svg etc.)
     class GameTable {
+    coordinatePageX = 0;
+    coordinatePageX = 0;
     coordinateX = 0;
     coordinateY = 0;
     width = 0;
@@ -55,6 +57,18 @@
             }
         } else {
             throw new TypeError('The coordinates of the game table must be integers');
+        }
+    }
+
+    setCoordinateOnPage(x, y) {
+        if(!isNaN(x) && !isNaN(y)) {
+            this.coordinatePageX = x;
+            this.coordinatePageY = y;
+            if(this.gameView) {
+                this.gameView.update;
+            }
+        } else {
+            throw new TypeError('The coordinates of the game table must be numbers');
         }
     }
 

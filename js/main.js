@@ -73,9 +73,6 @@
     firstGamer.setGameBall(gameBall);
     secondGamer.setGameBall(gameBall);
 
-    //looking for a button for show rules
-    const buttonShowGameRulesSelector = 'button.showRules';
-    const buttonShowGameRulesElement = document.querySelector(buttonShowGameRulesSelector);
 
     //looking for a button start
     const startButtonElementSelector = 'button.start';
@@ -89,58 +86,66 @@
     const resetScoreButtonElementSelector = 'button.resetScore';
     const resetScoreButtonElement = document.querySelector(resetScoreButtonElementSelector);
 
-    if (Modernizr.touch){
-        // create game controller with use touch
-        var gameController = new TouchController(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable);
 
-        //looking for a  game rules panel
-        const gameRulesPanelId = 'touchRules';
-        const gameRulesPanelElement = document.getElementById(gameRulesPanelId);
+    //add events for touch
+    //looking for a button for show rules for touch
+    const buttonShowGameRulesTouchSelector = 'button.showRulesTouch';
+    const buttonShowGameRulesTouchElement = document.querySelector(buttonShowGameRulesTouchSelector);
 
-        //looking for a button for hide rules panel
-        const buttonGameRulesPanelId = 'touchRule';
-        const buttonGameRulesPanelElement = document.getElementById(buttonGameRulesPanelId);
+    //looking for a  game rules panel
+    const gameRulesTouchPanelId = 'touchRules';
+    const gameRulesTouchPanelElement = document.getElementById(gameRulesTouchPanelId);
 
-        buttonGameRulesPanelElement.addEventListener('touchstart', () => {hideElement(gameRulesPanelElement)});
+    //looking for a button for hide rules panel
+    const buttonGameTouchRulesPanelId = 'touchRule';
+    const buttonGameTouchRulesPanelElement = document.getElementById(buttonGameTouchRulesPanelId);
 
-        buttonShowGameRulesElement.addEventListener('touchstart', () => showElement(gameRulesPanelElement));
+    buttonGameTouchRulesPanelElement.addEventListener('touchstart', () => {hideElement(gameRulesTouchPanelElement)});
 
-        buttonWinnerPanelElement.addEventListener('touchstart', () => {hideElement(winnerPanelElement)});
-    } else {
-        //create game controller with use keyboard
-        var gameController = new KeyboardController(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView, gamePanelElement);
+    buttonShowGameRulesTouchElement.addEventListener('touchstart', () => showElement(gameRulesTouchPanelElement));
 
-        //looking for a  game rules panel
-        const gameRulesPanelId = 'keyboardRules';
-        const gameRulesPanelElement = document.getElementById(gameRulesPanelId);
+    buttonWinnerPanelElement.addEventListener('touchstart', () => {hideElement(winnerPanelElement)});
+    
+    
+    //add events for keyboard
+    //looking for a button for show rules for keyboard
+    const buttonShowGameRulesKeysSelector = 'button.showRulesKeys';
+    const buttonShowGameRulesKeysElement = document.querySelector(buttonShowGameRulesKeysSelector);
 
-        //looking for a button for hide rules panel
-        const buttonGameRulesPanelId = 'keyRule';
-        const buttonGameRulesPanelElement = document.getElementById(buttonGameRulesPanelId);
-        buttonGameRulesPanelElement.addEventListener('click', () => {hideElement(gameRulesPanelElement)});
+    //looking for a  game rules panel
+    const gameRulesKeysPanelId = 'keyboardRules';
+    const gameRulesKeysPanelElement = document.getElementById(gameRulesKeysPanelId);
 
-        buttonShowGameRulesElement.addEventListener('click', () => showElement(gameRulesPanelElement));
+    //looking for a button for hide rules panel
+    const buttonGameKeysRulesPanelId = 'keyRule';
+    const buttonGameKeysRulesPanelElement = document.getElementById(buttonGameKeysRulesPanelId);
+    buttonGameKeysRulesPanelElement.addEventListener('click', () => {hideElement(gameRulesKeysPanelElement)});
 
-        buttonWinnerPanelElement.addEventListener('click', () => {hideElement(winnerPanelElement)});
+    buttonShowGameRulesKeysElement.addEventListener('click', () => showElement(gameRulesKeysPanelElement));
 
-        document.body.addEventListener('keydown', () => {
-            gameController.stopStartGameLoop();
-            if(!wasPlayed) {
-                soundInit();
-            }
-        });
+    buttonWinnerPanelElement.addEventListener('click', () => {hideElement(winnerPanelElement)});
 
-        startButtonElement.addEventListener('click', ()=>{
-            gameController.startGameLoop();
-            if(!wasPlayed) {
-                soundInit();
-            }
-        });
 
-        stopButtonElement.addEventListener('click', ()=>{gameController.stopGameLoop()});
+    //create game controller with use keyboard
+    var gameController = new KeyboardController(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView);
 
-        resetScoreButtonElement.addEventListener('click', ()=>{gameController.resetGameScore();});
-    }
+    document.body.addEventListener('keydown', () => {
+        gameController.stopStartGameLoop();
+        if(!wasPlayed) {
+            soundInit();
+        }
+    });
+
+    startButtonElement.addEventListener('click', ()=>{
+        gameController.startGameLoop();
+        if(!wasPlayed) {
+            soundInit();
+        }
+    });
+
+    stopButtonElement.addEventListener('click', ()=>{gameController.stopGameLoop()});
+
+    resetScoreButtonElement.addEventListener('click', ()=>{gameController.resetGameScore();});
 
     function soundInit() {
         wasPlayed = true;

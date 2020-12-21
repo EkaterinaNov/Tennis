@@ -7,8 +7,14 @@ class KeyboardController{
     gameTable;
     gameView;
 
+    gameTableElement;
+    viewIndex;
+
     timeOut;
     isTimerStart = false;
+
+    leftRacketTouch;
+    rightRacketTouch;
 
     requestLink;
     isStartGame;
@@ -25,8 +31,15 @@ class KeyboardController{
             this.gameBall = gameBall;
             this.gameTable = gameTable;
             this.gameView = gameView;
+
             window.addEventListener("resize",() => {this.whenResize()}, false);
             this.isStartGame = false;
+
+            const gameTableElementClass = 'tennisGame';
+            this.gameTableElement = document.getElementsByClassName(gameTableElementClass)[0];
+
+            this.recalculatedGameTableCoordinate();
+            this.viewIndex = this.gameView.getRecalculateIndex();
 
             document.body.addEventListener('keydown', () => {this.leftUpMove()});
             document.body.addEventListener('keyup', () => {this.leftUpStop()});
@@ -166,6 +179,11 @@ class KeyboardController{
         }
     }
 
+    recalculatedGameTableCoordinate() {
+        const clientCoord = this.gameTableElement.getBoundingClientRect();
+        this.gameTable.setCoordinateOnPage(clientCoord.left + pageXOffset, clientCoord.top + pageYOffset);
+    }
+
     startGameLoop(){
         var zeroScore = 0;
         if(this.firstGamer.isWinner || this.secondGamer.isWinner) {
@@ -221,8 +239,18 @@ class KeyboardController{
     startRecalculate() {
         if(this.gameView) {
             this.gameView.recalculateSize();
+            this.recalculatedGameTableCoordinate();
+            this.viewIndex = this.gameView.getRecalculateIndex();
         }
     }
+
+    touchStartMove() {}
+
+    touchEndMove() {}
+
+    touchCanselMove() {}
+
+    touchMove() {}
     
     whenResize() {
         if(this.isTimerStart) {
