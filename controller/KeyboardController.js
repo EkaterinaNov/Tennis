@@ -289,7 +289,6 @@ class KeyboardController{
             var touches = EO.changedTouches;
             var difference;
             var speed = 4;
-            var speedZero = 0;
             
             for (var i = 0; i < touches.length; i++) {
                 if(this.leftRacketTouch) {
