@@ -135,7 +135,7 @@ p {
 
 li {
     display: inline-block;
-    margin: 0.5em 1em;
+    margin: 0.5em 0.6em;
 }
 
 .notificationLabel {
@@ -185,7 +185,7 @@ ul.navGame {
 }
 
 @media all and (max-width: 402px) {
-    .gamePanel {width: 300px;}
+    .gamePanel {width: 330px;}
 }
 
 @media all and (max-width: 350px) {
