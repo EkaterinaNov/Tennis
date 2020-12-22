@@ -61,6 +61,13 @@ class CanvasView {
         this.update();
     }
 
+    setRecalculateIndex(index) {
+        if(!isNaN(index)) {
+            this.reculculateIndex = index;
+        } else {
+            throw new TypeError('Reculculate index must be a number');
+        }
+    }
     showWinner() {
         this.updateScore();
         var winnerName;
@@ -107,5 +114,21 @@ class CanvasView {
         this.canvasContext.arc(Math.floor(ballCoord.x * this.reculculateIndex), Math.floor(ballCoord.y * this.reculculateIndex),
             Math.floor(ballRadius * this.reculculateIndex), 0, 2 * Math.PI);
         this.canvasContext.fill();
+    }
+
+    destruct() {
+        this.gameTable = null;
+        this.leftTennisRacket = null;
+        this.rightTennisRacket = null;
+        this.gameBall = null;
+        
+        this.firstGamer = null;
+        this.secondGamer = null;
+        this.elementForInsertView = null;
+        this.elementForInsertScore = null;
+        this.winnerPanelElement = null;
+        this.forInsertWinnerNameElement = null;
+        this.canvasElement = null;
+        this.canvasContext = null;
     }
 }

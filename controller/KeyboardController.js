@@ -51,10 +51,10 @@ class KeyboardController{
             document.body.addEventListener('keydown', () => {this.rightDownMove()});
             document.body.addEventListener('keyup', () => {this.rightDownStop()});
 
-            this.gameTableElement.addEventListener("touchstart", () => {this.touchStartMove()}, false);
-            this.gameTableElement.addEventListener("touchend", () => {this.touchEndMove()}, false);
-            this.gameTableElement.addEventListener("touchcancel", () => {this.touchCanselMove()}, false);
-            this.gameTableElement.addEventListener("touchmove", () => {this.touchMoveAction()}, { passive: false });
+            this.gameTableElement.addEventListener("touchstart", (EO) => {this.touchStartMove(EO)}, false);
+            this.gameTableElement.addEventListener("touchend", (EO) => {this.touchEndMove(EO)}, false);
+            this.gameTableElement.addEventListener("touchcancel", (EO) => {this.touchCanselMove(EO)}, false);
+            this.gameTableElement.addEventListener("touchmove", (EO) => {this.touchMoveAction(EO)}, { passive: false });
         } else {
             throw new TypeError('All parameters must be objects');
         }
@@ -250,7 +250,7 @@ class KeyboardController{
     }
 
     touchStartMove(EO) {
-        EO = EO || window.event;
+        //EO = EO || window.event;
         EO.preventDefault();
         var touches = EO.changedTouches;
         var leftRacketCoord = this.leftTennisRacket.getCoordinate();
@@ -258,7 +258,7 @@ class KeyboardController{
         var rightRacketCoord = this.rightTennisRacket.getCoordinate();
         var rightRacketDimensions = this.rightTennisRacket.getDimensions();
         var gameTablePageCoord = this.gameTable.getCoordinateOnPage();
-        const extraDistance = 10;
+        const extraDistance = 15;
         const sidesNumber = 2;
 
         var leftRacketData = {x: gameTablePageCoord.x + Math.floor(leftRacketCoord.x * this.viewIndex) - extraDistance,
@@ -284,11 +284,12 @@ class KeyboardController{
 
     touchMoveAction(EO) {
         if(this.leftRacketTouch || this.rightRacketTouch) {
-            EO = EO || window.event;
+            //EO = EO || window.event;
             EO.preventDefault();
             var touches = EO.changedTouches;
             var difference;
-            var speed = 4;
+            var speed = 7;
+            var speedZero = 0;
             
             for (var i = 0; i < touches.length; i++) {
                 if(this.leftRacketTouch) {
@@ -308,6 +309,12 @@ class KeyboardController{
                         } else {
                             this.rightTennisRacket.setSpeed(-speed);
                         }
+                    }
+                } else {
+                    if(this.leftRacketTouch) {
+                        this.leftTennisRacket.setSpeed(speedZero);
+                    } else if(this.rightTennisRacket) {
+                        this.rightTennisRacket.setSpeed(-speed);
                     }
                 }
             }
@@ -340,13 +347,17 @@ class KeyboardController{
         if(this.leftRacketTouch || this.rightRacketTouch) {
             EO = EO || window.event;
             var touches = EO.changedTouches;
+            var speedZero = 0;
+
             for (var i = 0; i < touches.length; i++) {
                 if(this.leftRacketTouch) {
                     if(this.leftRacketTouch.identifier === touches[i].identifier) {
+                        this.leftTennisRacket.setSpeed(speedZero);
                         this.leftRacketTouch = null;
                     }
                 } else {
                     if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                        this.rightTennisRacket.setSpeed(speedZero);
                         this.rightRacketTouch = null;
                     }
                 }
@@ -366,15 +377,6 @@ class KeyboardController{
     }
 
     destruct() {
-        if(this.firstGamer && this.secondGamer && this.leftTennisRacket && this.rightTennisRacket && this.gameBall && this.gameTable){
-            this.firstGamer.destruct();
-            this.secondGamer.destruct();
-            this.leftTennisRacket.destruct();
-            this.rightTennisRacket.destruct();
-            this.gameBall.destruct();
-            this.gameTable.destruct();
-        }
-
         this.firstGamer = null;
         this.secondGamer = null;
         this.leftTennisRacket = null;
