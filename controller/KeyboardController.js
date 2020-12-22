@@ -288,17 +288,27 @@ class KeyboardController{
             EO.preventDefault();
             var touches = EO.changedTouches;
             var difference;
+            var speed = 4;
+            var speedZero = 0;
             
             for (var i = 0; i < touches.length; i++) {
                 if(this.leftRacketTouch) {
                     if(this.leftRacketTouch.identifier === touches[i].identifier) {
-                        difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
-                        this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
+                        difference = touches[i].pageY - this.leftRacketTouch.pageY;
+                        if(difference > 0) {
+                            this.leftTennisRacket.setSpeed(speed);
+                        } else {
+                            this.leftTennisRacket.setSpeed(-speed);
+                        }
                     }
-                } else{
-                        if(this.rightRacketTouch.identifier === touches[i].identifier) {
-                        difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
-                        this.rightTennisRacket.setCoordinateY(this.rightTennisRacket.getCoordinateY() + difference);
+                } else if(this.rightTennisRacket){
+                    if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                        difference = touches[i].pageY - this.rightRacketTouch.pageY;
+                        if(difference > 0) {
+                            this.rightTennisRacket.setSpeed(speed);
+                        } else {
+                            this.rightTennisRacket.setSpeed(-speed);
+                        }
                     }
                 }
             }
@@ -309,18 +319,17 @@ class KeyboardController{
         if(this.leftRacketTouch || this.rightRacketTouch) {
             EO = EO || window.event;
             var touches = EO.changedTouches;
-            var difference;
+            var speedZero = 0;
+
             for (var i = 0; i < touches.length; i++) {
                 if(this.leftRacketTouch) {
                     if(this.leftRacketTouch.identifier === touches[i].identifier) {
-                        difference = Math.floor((touches[i].pageY - this.leftRacketTouch.pageY) / this.viewIndex);
-                        this.leftTennisRacket.setCoordinateY(this.leftTennisRacket.getCoordinateY() + difference);
+                        this.leftTennisRacket.setSpeed(speedZero);
                         this.leftRacketTouch = null;
                     }
                 } else {
                         if(this.rightRacketTouch.identifier === touches[i].identifier) {
-                        difference = Math.floor((touches[i].pageY - this.rightRacketTouch.pageY) / this.viewIndex);
-                        this.rightRacketTouch.setCoordinateY(this.rightRacketTouch.getCoordinateY() + difference);
+                        this.rightTennisRacket.setSpeed(speedZero);
                         this.rightRacketTouch = null;
                     }
                 }
