@@ -95,9 +95,6 @@ class TennisRacket{
     setSpeed(racketSpeed) {
         if(Number.isInteger(racketSpeed)) {
             this.speedY = racketSpeed;
-            if(this.gameView) {
-                this.gameView.update();
-            }
         } else {
             throw new TypeError('Speed of the tennis racket must be integers');
         }

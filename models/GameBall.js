@@ -10,6 +10,8 @@ class GameBall{
     topBorder = 0;
     rightBorder;
     bottomBorder;
+    additionalAcceleration;
+    maxSpeed;
 
     knownTableWidth;
 
@@ -39,6 +41,8 @@ class GameBall{
             this.soundGoalScored = soundGoalScored;
             this.impactSound = impactSound;
             this.setRandomSpeed();
+            this.additionalAcceleration = 1.1;
+            this.maxSpeed = 9;
             return this;
         } else {
             throw new TypeError('All parameters must be objects');
@@ -69,13 +73,21 @@ class GameBall{
                 (((this.coordinateY - this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) && (this.coordinateY - this.radius >= coordLeftRacket.y)) || 
                 ((this.coordinateY + this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) &&(this.coordinateY + this.radius >= coordLeftRacket.y)))) {
             this.playImpactSound();
-            this.speedX = -this.speedX;
+            if(this.speedX < this.maxSpeed) {
+                this.speedX = -this.speedX * this.additionalAcceleration;
+            } else {
+                this.speedX = -this.speedX;
+            }
         } else if ((this.coordinateX + this.radius <= coordRightRacket.x + dimensionsRightRacket.width) &&
                     (this.coordinateX + this.radius >= coordRightRacket.x) &&
-                    (((this.coordinateY - this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) && (this.coordinateY - this.radius >= coordLeftRacket.y)) || 
-                ((this.coordinateY + this.radius <= coordLeftRacket.y + dimensionsLeftRacket.height) &&(this.coordinateY + this.radius >= coordLeftRacket.y)))) {
+                    (((this.coordinateY - this.radius <= coordRightRacket.y + dimensionsRightRacket.height) && (this.coordinateY - this.radius >= coordRightRacket.y)) || 
+                ((this.coordinateY + this.radius <= coordRightRacket.y + dimensionsRightRacket.height) &&(this.coordinateY + this.radius >= coordRightRacket.y)))) {
             this.playImpactSound();
-            this.speedX = -this.speedX;
+            if(this.speedX < this.maxSpeed) {
+                this.speedX = -this.speedX * this.additionalAcceleration;
+            } else {
+                this.speedX = -this.speedX;
+            }
         } else if (this.coordinateY - this.radius <= this.topBorder) {
             this.playImpactSound();
             this.speedY = -this.speedY;
@@ -133,16 +145,16 @@ class GameBall{
         var bound = 0.5;
         var dice = Math.random();
         if (dice < bound) {
-            this.speedX = this.getRandomIntInclusive(5, 8);
+            this.speedX = 5;
         } else {
-            this.speedX = -(this.getRandomIntInclusive(5, 8));
+            this.speedX = -5;
         }
 
         dice = Math.random();
         if(dice < bound) {
-            this.speedY = -(this.getRandomIntInclusive(2, 4));
+            this.speedY = -(this.getRandomIntInclusive(3, 5));
         } else {
-            this.speedY = this.getRandomIntInclusive(2, 4);
+            this.speedY = this.getRandomIntInclusive(3, 5);
         }
     }
 
@@ -179,9 +191,6 @@ class GameBall{
         if(Number.isInteger(speedX) && Number.isInteger(speedY)) {
             this.speedX = speedX;
             this.speedY = speedY;
-            if(this.gameView) {
-                this.gameView.update();
-            }
         } else {
             throw new TypeError('Speed of the game ball must be integers');
         }

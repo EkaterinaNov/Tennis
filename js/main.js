@@ -16,6 +16,9 @@
     var secondGamer = new Gamer(secondGamerElement.textContent);
     buttonOnEntryPanelElement.addEventListener('click', ()=>{secondGamer.setName(secondGamerElement.textContent)});
 
+    //warn the user about data loss when the page is unloaded
+    window.addEventListener('beforeunload',(EO) => {warnDataLost(EO)});
+
     //create audio
     var soundGoalScored = new Audio;
     soundGoalScored.src = "./audio/soundGoalScored.mp3";
@@ -161,6 +164,14 @@
 
     function showElement(elementForShow) {
         elementForShow.style.visibility = 'visible';
+    }
+
+    function warnDataLost(EO) {
+        const defaultName = 'Игрок 1';
+        if(firstGamer.getName() !== defaultName) {
+            EO.preventDefault();
+            EO.returnValue = 'Данные будут потеряны';
+        }
     }
 
 })()

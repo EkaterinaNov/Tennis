@@ -76,7 +76,7 @@ class KeyboardController{
     leftDownMove(EO) {
         EO = EO || window.event;
         const codeS = 'KeyS';
-        const speed = 4;
+        const speed = 5;
         if(EO.code === codeS)
         {
             this.leftTennisRacket.setSpeed(speed);
@@ -96,7 +96,7 @@ class KeyboardController{
     leftUpMove(EO) {
         EO = EO || window.event;
         const codeW = 'KeyW';
-        const speed = -4;
+        const speed = -5;
         if(EO.code === codeW)
         {
             this.leftTennisRacket.setSpeed(speed);
@@ -250,7 +250,6 @@ class KeyboardController{
     }
 
     touchStartMove(EO) {
-        //EO = EO || window.event;
         EO.preventDefault();
         var touches = EO.changedTouches;
         var leftRacketCoord = this.leftTennisRacket.getCoordinate();
@@ -284,7 +283,6 @@ class KeyboardController{
 
     touchMoveAction(EO) {
         if(this.leftRacketTouch || this.rightRacketTouch) {
-            //EO = EO || window.event;
             EO.preventDefault();
             var touches = EO.changedTouches;
             var difference;
