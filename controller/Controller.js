@@ -15,6 +15,8 @@ class Controller{
 
     leftRacketTouch = null;
     rightRacketTouch = null;
+    setLeftRacketSpeed = 0;
+    setRightRacketSpeed = 0;
 
     requestLink;
     isStartGame;
@@ -79,7 +81,11 @@ class Controller{
         const speed = 5;
         if(EO.code === codeS)
         {
+            if(this.setLeftRacketSpeed === speed) {
+                return;
+            }
             this.leftTennisRacket.setSpeed(speed);
+            this.setLeftRacketSpeed = speed;
         }
     }
 
@@ -90,6 +96,7 @@ class Controller{
         if(EO.code === codeS)
         {
             this.leftTennisRacket.setSpeed(speed);
+            this.setLeftRacketSpeed = speed;
         }
     }
 
@@ -99,7 +106,11 @@ class Controller{
         const speed = -5;
         if(EO.code === codeW)
         {
+            if(this.setLeftRacketSpeed === speed) {
+                return;
+            }
             this.leftTennisRacket.setSpeed(speed);
+            this.setLeftRacketSpeed = speed;
         }
     }
 
@@ -110,6 +121,7 @@ class Controller{
         if(EO.code === codeW)
         {
             this.leftTennisRacket.setSpeed(speed);
+            this.setLeftRacketSpeed = speed;
         }
     }
 
@@ -140,7 +152,11 @@ class Controller{
         const speed = 4;
         if(EO.key === nameArrowDown)
         {
+            if(this.setRightRacketSpeed === speed) {
+                return;
+            }
             this.rightTennisRacket.setSpeed(speed);
+            this.setRightRacketSpeed = speed;
         }
     }
 
@@ -151,6 +167,7 @@ class Controller{
         if(EO.key === nameArrowDown)
         {
             this.rightTennisRacket.setSpeed(speed);
+            this.setRightRacketSpeed = speed;
         }
     }
     
@@ -160,7 +177,11 @@ class Controller{
         const speed = -4;
         if(EO.key === nameArrowUp)
         {
+            if(this.setRightRacketSpeed === speed) {
+                return;
+            }
             this.rightTennisRacket.setSpeed(speed);
+            this.setRightRacketSpeed = speed;
         }
     }
 
@@ -171,6 +192,7 @@ class Controller{
         if(EO.key === nameArrowUp)
         {
             this.rightTennisRacket.setSpeed(speed);
+            this.setRightRacketSpeed = speed;
         }
     }
 
@@ -257,7 +279,7 @@ class Controller{
         var rightRacketCoord = this.rightTennisRacket.getCoordinate();
         var rightRacketDimensions = this.rightTennisRacket.getDimensions();
         var gameTablePageCoord = this.gameTable.getCoordinateOnPage();
-        const extraDistance = 15;
+        const extraDistance = 20;
         const sidesNumber = 2;
 
         var leftRacketData = {x: gameTablePageCoord.x + Math.floor(leftRacketCoord.x * this.viewIndex) - extraDistance,
@@ -274,9 +296,13 @@ class Controller{
             if(touches[i].pageX > leftRacketData.x && touches[i].pageX < leftRacketData.x + leftRacketData.width &&
                 touches[i].pageY > leftRacketData.y && touches[i].pageY < leftRacketData.y + leftRacketData.height) {
                     this.leftRacketTouch = this.copyTouch(touches[i]);
-            } else if(touches[i].pageX > rightRacketData.x && touches[i].pageX < rightRacketData.x + rightRacketData.width &&
+            }
+
+            if(touches[i].pageX > rightRacketData.x && touches[i].pageX < rightRacketData.x + rightRacketData.width &&
                 touches[i].pageY > rightRacketData.y && touches[i].pageY < rightRacketData.y + rightRacketData.height) {
                     this.rightRacketTouch = this.copyTouch(touches[i]);
+            } else {
+                this.stopStartGameLoop();
             }
         }
     }
@@ -287,32 +313,32 @@ class Controller{
             var touches = EO.changedTouches;
             var difference;
             var speed = 7;
-            var speedZero = 0;
             
             for (var i = 0; i < touches.length; i++) {
                 if(this.leftRacketTouch) {
                     if(this.leftRacketTouch.identifier === touches[i].identifier) {
                         difference = touches[i].pageY - this.leftRacketTouch.pageY;
                         if(difference > 0) {
+                            if(this.setLeftRacketSpeed === speed) {
+                                break;
+                            }
                             this.leftTennisRacket.setSpeed(speed);
                         } else {
                             this.leftTennisRacket.setSpeed(-speed);
                         }
                     }
-                } else if(this.rightTennisRacket){
+                }
+                if(this.rightTennisRacket){
                     if(this.rightRacketTouch.identifier === touches[i].identifier) {
                         difference = touches[i].pageY - this.rightRacketTouch.pageY;
                         if(difference > 0) {
+                            if(this.setRightRacketSpeed === speed) {
+                                break;
+                            }
                             this.rightTennisRacket.setSpeed(speed);
                         } else {
                             this.rightTennisRacket.setSpeed(-speed);
                         }
-                    }
-                } else {
-                    if(this.leftRacketTouch) {
-                        this.leftTennisRacket.setSpeed(speedZero);
-                    } else if(this.rightTennisRacket) {
-                        this.rightTennisRacket.setSpeed(-speed);
                     }
                 }
             }
@@ -331,8 +357,9 @@ class Controller{
                         this.leftTennisRacket.setSpeed(speedZero);
                         this.leftRacketTouch = null;
                     }
-                } else {
-                        if(this.rightRacketTouch.identifier === touches[i].identifier) {
+                }
+                if(this.rightRacketTouch) {
+                    if(this.rightRacketTouch.identifier === touches[i].identifier) {
                         this.rightTennisRacket.setSpeed(speedZero);
                         this.rightRacketTouch = null;
                     }
@@ -353,7 +380,8 @@ class Controller{
                         this.leftTennisRacket.setSpeed(speedZero);
                         this.leftRacketTouch = null;
                     }
-                } else {
+                }
+                if(this.rightRacketTouch) {
                     if(this.rightRacketTouch.identifier === touches[i].identifier) {
                         this.rightTennisRacket.setSpeed(speedZero);
                         this.rightRacketTouch = null;
