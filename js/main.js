@@ -89,6 +89,13 @@
     const resetScoreButtonElementSelector = 'button.resetScore';
     const resetScoreButtonElement = document.querySelector(resetScoreButtonElementSelector);
 
+    //looking for save button
+    const saveButtonElementSelector = 'button.saveGame';
+    const saveButtonElement = document.querySelector(saveButtonElementSelector);
+
+    //looking for show last twenty games button
+    const showLastSavesButtonElementSelector = 'button.lastSaves';
+    const showLastSavesButtonElement = document.querySelector(showLastSavesButtonElementSelector);
 
     //add events for touch
     //looking for a button for show rules for touch
@@ -108,6 +115,10 @@
     buttonShowGameRulesTouchElement.addEventListener('touchstart', () => showElement(gameRulesTouchPanelElement));
 
     buttonWinnerPanelElement.addEventListener('touchstart', () => {hideElement(winnerPanelElement)});
+
+    saveButtonElement.addEventListener('touchstart', saveGameData);
+
+    showLastSavesButtonElement.addEventListener('touchstart', showLastGameSaves);
     
     
     //add events for keyboard
@@ -127,6 +138,8 @@
     buttonShowGameRulesKeysElement.addEventListener('click', () => showElement(gameRulesKeysPanelElement));
 
     buttonWinnerPanelElement.addEventListener('click', () => {hideElement(winnerPanelElement)});
+
+    showLastSavesButtonElement.addEventListener('click', showLastGameSaves);
 
 
     //create game controller with use keyboard
@@ -150,11 +163,8 @@
 
     resetScoreButtonElement.addEventListener('click', ()=>{gameController.resetGameScore();});
 
-    //looking for save button
-    const saveButtonElementSelector = 'button.saveGame';
-    const saveButtonElement = document.querySelector(saveButtonElementSelector);
     saveButtonElement.addEventListener('click', saveGameData);
-
+    
     //initializing sounds for the game
     function soundInit() {
         wasPlayed = true;
@@ -192,6 +202,84 @@
         return saveObject;
     }
 
+    //get last saves from server
+    function showLastGameSaves() {
+        const commandRead = 'READ';
+        const dataName = 'NOVIKOVA_EKATERINA_TENNIS_2020';
+        const ajaxScript = "https://fe.it-academy.by/AjaxStringStorage2.php";
+        const methodPost = 'post';
+        const controlString = '';
+
+        var dataFromServer = {};
+
+        var requestParameters = new URLSearchParams();
+        requestParameters.append('f', commandRead);
+        requestParameters.append('n', dataName);
+
+        fetch(ajaxScript, { method: methodPost, body: requestParameters })
+        .then( response => response.json() )
+        .then( data => {
+            if(data.error) {
+                warnError();
+                return;
+            }else if(data.result === controlString){
+                warnServerDataLost();
+            } else {
+                const divClass = 'div';
+                const pClass = 'p';
+                const buttonClass = 'button';
+                const savedGamesPanelClass = 'savedGamesPanel';
+                const formFieldClass = 'formField';
+                const infoTextClass = 'infoText';
+                const variableNull = null;
+
+                dataFromServer = JSON.parse(data.result);
+
+                var savedGamesPanelElement = document.createElement(divClass);
+                savedGamesPanelElement.classList.add(savedGamesPanelClass);
+                const numOfSaves = dataFromServer.preservation.length;
+                
+                for(let i = 0; i < numOfSaves; i++) {
+                    if(dataFromServer.preservation[i] === variableNull) {
+                        break;
+                    }
+                    let oneEntries = document.createElement(divClass);
+                    oneEntries.classList.add(formFieldClass);
+                    savedGamesPanelElement.append(oneEntries);
+
+                    let firstGamerDiv = document.createElement(divClass);
+                    firstGamerDiv.classList.add(infoTextClass);
+                    let fierstGamerP = document.createElement(pClass);
+                    fierstGamerP.textContent = dataFromServer.preservation[i].firstGamer.name;
+                    firstGamerDiv.append(fierstGamerP);
+                    oneEntries.append(firstGamerDiv);
+
+                    let scoreGamersDiv = document.createElement(divClass);
+                    scoreGamersDiv.classList.add(infoTextClass);
+                    let scoretGamersP = document.createElement(pClass);
+                    scoretGamersP.textContent = dataFromServer.preservation[i].firstGamer.score + ':' + dataFromServer.preservation[i].secondGamer.score;
+                    scoreGamersDiv.append(scoretGamersP);
+                    oneEntries.append(scoreGamersDiv);
+
+                    let secondGamerDiv = document.createElement(divClass);
+                    secondGamerDiv.classList.add(infoTextClass);
+                    let secondGamerP = document.createElement(pClass);
+                    secondGamerP.textContent = dataFromServer.preservation[i].secondGamer.name;
+                    secondGamerDiv.append(secondGamerP);
+                    oneEntries.append(secondGamerDiv);
+                }
+
+                var buttonSavedGamesPanel = document.createElement(buttonClass);
+                buttonSavedGamesPanel.classList.add(formFieldClass);
+                savedGamesPanelElement.append(buttonSavedGamesPanel);
+                buttonSavedGamesPanel.onclick = () => {savedGamesPanelElement.remove();};
+                buttonSavedGamesPanel.innerHTML = 'OK';
+                document.body.append(savedGamesPanelElement);
+            }
+        } )
+        .catch( (error) => { warnError(); console.log(error); } );
+    }
+
     //save data to server
     function saveGameData () {
         const defaultName = 'Игрок 1';
@@ -223,9 +311,9 @@
                     warnError();
                     return;
                 }else {
-                dataFromServer = JSON.parse(data.result);
-                insertNumber = dataFromServer.insertionPosition;
-            }
+                    dataFromServer = JSON.parse(data.result);
+                    insertNumber = dataFromServer.insertionPosition;
+                }
             } )
             .then(() => {
                 currentGameData = createSaveObject();
@@ -294,6 +382,16 @@
         warnElement.style.cssText = `width: 12em; height: 1.5em; margin: -0.75em 0 0 -6em; background-color: rgb(247,241,230); border: 0.1em solid rgb(217,176,151);
             border-radius: 0.5em; position: absolute; top: 50%; left: 50%; z-index: 10; padding: 1.5em; text-align: center;`;
         warnElement.innerHTML = 'Данные сохранены';
+        document.body.append(warnElement);
+        setTimeout(() => warnElement.remove(), 2000);
+    }
+
+    function warnServerDataLost() {
+        const divClass = 'div';
+        var warnElement = document.createElement(divClass);
+        warnElement.style.cssText = `width: 12em; height: 1.5em; margin: -0.75em 0 0 -6em; background-color: rgb(247,241,230); border: 0.1em solid rgb(217,176,151);
+            border-radius: 0.5em; position: absolute; top: 50%; left: 50%; z-index: 10; padding: 1.5em; text-align: center;`;
+        warnElement.innerHTML = 'Данные утрачены';
         document.body.append(warnElement);
         setTimeout(() => warnElement.remove(), 2000);
     }
