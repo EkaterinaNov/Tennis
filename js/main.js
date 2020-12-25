@@ -273,6 +273,7 @@
                 buttonSavedGamesPanel.classList.add(formFieldClass);
                 savedGamesPanelElement.append(buttonSavedGamesPanel);
                 buttonSavedGamesPanel.onclick = () => {savedGamesPanelElement.remove();};
+                buttonSavedGamesPanel.addEventListener('touchstart', () => {savedGamesPanelElement.remove();});
                 buttonSavedGamesPanel.innerHTML = 'OK';
                 document.body.append(savedGamesPanelElement);
             }

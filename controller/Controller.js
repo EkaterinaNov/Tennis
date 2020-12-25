@@ -301,8 +301,6 @@ class Controller{
             if(touches[i].pageX > rightRacketData.x && touches[i].pageX < rightRacketData.x + rightRacketData.width &&
                 touches[i].pageY > rightRacketData.y && touches[i].pageY < rightRacketData.y + rightRacketData.height) {
                     this.rightRacketTouch = this.copyTouch(touches[i]);
-            } else {
-                this.stopStartGameLoop();
             }
         }
     }
@@ -363,6 +361,9 @@ class Controller{
                         this.rightTennisRacket.setSpeed(speedZero);
                         this.rightRacketTouch = null;
                     }
+                }
+                else {
+                    this.stopStartGameLoop();
                 }
             }
         }
