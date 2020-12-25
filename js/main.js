@@ -130,7 +130,7 @@
 
 
     //create game controller with use keyboard
-    var gameController = new KeyboardController(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView);
+    var gameController = new Controller(firstGamer, secondGamer, leftTennisRacket, rightTennisRacket, gameBall, gameTable, gameView);
 
     document.body.addEventListener('keydown', () => {
         gameController.stopStartGameLoop();
@@ -150,6 +150,12 @@
 
     resetScoreButtonElement.addEventListener('click', ()=>{gameController.resetGameScore();});
 
+    //looking for save button
+    const saveButtonElementSelector = 'button.saveGame';
+    const saveButtonElement = document.querySelector(saveButtonElementSelector);
+    saveButtonElement.addEventListener('click', saveGameData);
+
+    //initializing sounds for the game
     function soundInit() {
         wasPlayed = true;
         soundGoalScored.play();
@@ -158,20 +164,145 @@
         impactSound.pause();
     }
 
+    //change the visibility of some element to hidden
     function hideElement(elementForHide) {
         elementForHide.style.visibility = 'hidden';
     }
 
+    //change the visibility of some element to visible
     function showElement(elementForShow) {
         elementForShow.style.visibility = 'visible';
     }
 
+    //data loss warning if the page is unloaded
     function warnDataLost(EO) {
         const defaultName = 'Игрок 1';
-        if(firstGamer.getName() !== defaultName) {
+        const defaultScore = 0;
+        if(firstGamer.getName() !== defaultName && (firstGamer.getScore() !== defaultScore || secondGamer.getScore() !== defaultScore)) {
             EO.preventDefault();
             EO.returnValue = 'Данные будут потеряны';
         }
+    }
+
+    //create hash for save data
+    function createSaveObject() {
+        var saveObject = {};
+        saveObject.firstGamer = {name: firstGamer.getName(), score: firstGamer.getScore()};
+        saveObject.secondGamer = {name: secondGamer.getName(), score: secondGamer.getScore()};
+        return saveObject;
+    }
+
+    //save data to server
+    function saveGameData () {
+        const defaultName = 'Игрок 1';
+        const defaultScore = 0;
+        if(firstGamer.getName() !== defaultName && (firstGamer.getScore() !== defaultScore || secondGamer.getScore() !== defaultScore)) {
+            const commandLockget = 'LOCKGET';
+            const commandUpdate = 'UPDATE';
+            const dataName = 'NOVIKOVA_EKATERINA_TENNIS_2020';
+            const ajaxScript = "https://fe.it-academy.by/AjaxStringStorage2.php";
+            const methodPost = 'post';
+            const password = getPassword();
+            const maxNumSaves = 20;
+            const controlString = 'OK';
+            const startElementToSave = 0;
+
+            var insertNumber = 0;
+            var dataFromServer = {};
+            var currentGameData = {};
+            var dataForSave = {};
+
+            var requestParameters = new URLSearchParams();
+            requestParameters.append('f', commandLockget);
+            requestParameters.append('n', dataName);
+            requestParameters.append('p', password);
+            fetch(ajaxScript, { method: methodPost, body: requestParameters })
+            .then( response => response.json() )
+            .then( data => {
+                if(data.error) {
+                    warnError();
+                    return;
+                }else {
+                dataFromServer = JSON.parse(data.result);
+                insertNumber = dataFromServer.insertionPosition;
+            }
+            } )
+            .then(() => {
+                currentGameData = createSaveObject();
+                dataForSave = dataFromServer;
+                dataForSave.preservation[insertNumber] = currentGameData;
+                if(dataForSave.insertionPosition === maxNumSaves - 1) {
+                    dataForSave.insertionPosition = startElementToSave;
+                } else {
+                    dataForSave.insertionPosition = insertNumber + 1;
+                }
+
+                var dataForSaveJson = JSON.stringify(dataForSave);
+
+                requestParameters.set('f', commandUpdate);
+                requestParameters.append('v', dataForSaveJson);
+                
+                fetch(ajaxScript, { method: methodPost, body: requestParameters })
+                .then( response => response.text() )
+                .then( data => {
+                    if(data.error) {
+                        warnError();
+                        return;
+                    } else {
+                        if(data.result === controlString) {
+                            warnDataSaved();
+                        } else {
+                            warnError();
+                        }
+                    }
+                })
+                .catch( (error) => { warnError(); console.log(error); } )
+            })
+            .catch( (error) => { warnError(); console.log(error); } );
+
+        } else {
+            warnNothingToSave();
+        }
+    }
+
+    //create and show warn that nothing to save and remove it
+    function warnNothingToSave() {
+        const divClass = 'div';
+        var warnElement = document.createElement(divClass);
+        warnElement.style.cssText = `width: 12em; height: 1.5em; margin: -0.75em 0 0 -6em; background-color: rgb(247,241,230); border: 0.1em solid rgb(217,176,151);
+            border-radius: 0.5em; position: absolute; top: 50%; left: 50%; z-index: 10; padding: 1.5em; text-align: center;`;
+        warnElement.innerHTML = 'Нет данных для сохранения';
+        document.body.append(warnElement);
+        setTimeout(() => warnElement.remove(), 2000);
+    }
+
+    //show error warning when saving game data
+    function warnError() {
+        const divClass = 'div';
+        var warnElement = document.createElement(divClass);
+        warnElement.style.cssText = `width: 12em; height: 4em; margin: -2em 0 0 -6em; background-color: rgb(247,241,230); border: 0.1em solid rgb(217,176,151);
+            border-radius: 0.5em; position: absolute; top: 50%; left: 50%; z-index: 10; padding: 1.5em; word-wrap: break-word;`;
+        warnElement.innerHTML = 'Произошла ошибка. Проверьте подключение к интернету и повторите попытку позже';
+        document.body.append(warnElement);
+        setTimeout(() => warnElement.remove(), 4000);
+    }
+
+    //show a message that the data has been saved
+    function warnDataSaved() {
+        const divClass = 'div';
+        var warnElement = document.createElement(divClass);
+        warnElement.style.cssText = `width: 12em; height: 1.5em; margin: -0.75em 0 0 -6em; background-color: rgb(247,241,230); border: 0.1em solid rgb(217,176,151);
+            border-radius: 0.5em; position: absolute; top: 50%; left: 50%; z-index: 10; padding: 1.5em; text-align: center;`;
+        warnElement.innerHTML = 'Данные сохранены';
+        document.body.append(warnElement);
+        setTimeout(() => warnElement.remove(), 2000);
+    }
+
+    //function to get a random password
+    function getPassword() {
+        const min = 1;
+        const max = 500;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
 })()

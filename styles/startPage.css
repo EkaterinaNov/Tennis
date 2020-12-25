@@ -109,12 +109,20 @@ input {
 
 .infoText {
     display: inline-block;
-    width: 32%;
     text-align: center;
     color: black;
     font: normal 1.5em sans-serif;
     text-transform: uppercase;
     letter-spacing: 2px;
+    word-wrap: break-word;
+}
+
+.infoText:nth-child(even) {
+    width: 10%;
+}
+
+.infoText:nth-child(odd) {
+    width: 44%;
 }
 
 .infoText p {
@@ -129,10 +137,6 @@ input[type="text"] {
     margin: auto;
 }
 
-p {
-    margin: 0.7em 1em;
-}
-
 li {
     display: inline-block;
     margin: 0.5em 0.6em;
@@ -144,6 +148,27 @@ li {
     text-align: center;
     color: red;
     visibility: hidden;
+}
+
+p {
+    margin: 0.7em 1em;
+}
+
+.savedGamesPanel {
+    width: 40em;
+    overflow-y: auto;
+    height: 40em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -20em 0 0 -20em;
+    background-color: rgb(247,241,230);
+    border: 0.1em solid rgb(217,176,151);
+    border-radius: 0.5em;
+}
+
+.savedGamesPanel .infoText {
+    font: normal bold 1em sans-serif;
 }
 
 ul.navGame {
@@ -167,29 +192,32 @@ ul.navGame {
 
 @media all and (max-width: 1202px) {
     .gamePanel {width: 800px;}
+    .savedGamesPanel {width: 30em; height: 30em; margin: -15em 0 0 -15em;}
 }
 
 @media all and (max-width: 802px) {
     .gamePanel {width: 550px;}
-}
-
-
-@media all and (max-width: 700px) {
-    .infoText:nth-child(even) {width: 10%;}
-    .infoText:nth-child(odd) {width: 44%;}
+    .savedGamesPanel {width: 28em; height: 24em; margin: -12em 0 0 -14em;}
+    li {margin: 0.2em;}
 }
 
 @media all and (max-width: 552px) {
-    .infoPanel .infoText {width: 100%; display: block; margin: 0 auto;}
+    .control {font: normal 0.7em sans-serif;}
+    .infoPanel .infoText {width: 100%; display: block; margin: 0 auto; font: normal 1em sans-serif;}
     .gamePanel {width: 380px;}
+    .savedGamesPanel {width: 20em; height: 20em; margin: -10em 0 0 -10em;}
+    .savedGamesPanel .infoText {width: 100%; display: block; margin: 0 auto; font: normal 1em sans-serif;}
+    li {margin: 0.2em;}
 }
 
 @media all and (max-width: 402px) {
     .gamePanel {width: 330px;}
     li {margin: 0.2em;}
+    .savedGamesPanel {width: 16em; height: 18em; margin: -9em 0 0 -8em;}
 }
 
 @media all and (max-width: 350px) {
     .gamePanel {margin: 5px 10px; width: calc(100% - 20px);}
     li {margin: 0.2em;}
+    .savedGamesPanel {width: 14em; height: 16em; margin: -8em 0 0 -7em;}
 }

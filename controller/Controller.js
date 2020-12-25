@@ -1,4 +1,4 @@
-class KeyboardController{
+class Controller{
     firstGamer;
     secondGamer;
     leftTennisRacket;
