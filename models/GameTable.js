@@ -1,7 +1,7 @@
 //store information about game table element(div, canvas, svg etc.)
     class GameTable {
     coordinatePageX = 0;
-    coordinatePageX = 0;
+    coordinatePageY = 0;
     coordinateX = 0;
     coordinateY = 0;
     width = 0;
