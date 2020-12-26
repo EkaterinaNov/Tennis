@@ -180,13 +180,13 @@ class GameBall{
     }
 
     move() {
-        this.coordinateX += this.speedX;
-        this.coordinateY += this.speedY;
         if(this.gameView) {
             this.gameView.update();
         }
         this.checkGoal();
         this.checkCollision();
+        this.coordinateX += this.speedX;
+        this.coordinateY += this.speedY;
     }
 
     playGoalScored(){
