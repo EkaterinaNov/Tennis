@@ -212,17 +212,21 @@ class Controller{
     }
 
     startGameLoop(){
-        var zeroScore = 0;
-        if(this.firstGamer.isWinner || this.secondGamer.isWinner) {
-            this.resetGameScore();
-        }
-        if(this.firstGamer.getScore() === zeroScore && this.secondGamer.getScore() === zeroScore) {
-            this.setStartScene();
-        }
-        
-        this.isStartGame = true;
+        if(this.isStartGame) {
+            return;
+        } else {
+            var zeroScore = 0;
+            if(this.firstGamer.isWinner || this.secondGamer.isWinner) {
+                this.resetGameScore();
+            }
+            if(this.firstGamer.getScore() === zeroScore && this.secondGamer.getScore() === zeroScore) {
+                this.setStartScene();
+            }
+            
+            this.isStartGame = true;
 
-        this.startMove();
+            this.startMove();
+        }
     }
 
     setStartScene() {
@@ -245,9 +249,11 @@ class Controller{
     }
 
     stopGameLoop() {
-        window.cancelAnimationFrame(this.requestLink);
+        if(this.isStartGame) {
+            window.cancelAnimationFrame(this.requestLink);
 
-        this.isStartGame = false;
+            this.isStartGame = false;
+        }
     }
 
     stopStartGameLoop(EO) {

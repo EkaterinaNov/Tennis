@@ -276,6 +276,9 @@
                 buttonSavedGamesPanel.addEventListener('touchstart', () => {savedGamesPanelElement.remove();});
                 buttonSavedGamesPanel.innerHTML = 'OK';
                 document.body.append(savedGamesPanelElement);
+                var savedGamesPanelElementHeight = savedGamesPanelElement.offsetHeight;
+                console.log(savedGamesPanelElementHeight);
+                savedGamesPanelElement.style.marginTop = '-' + Math.floor(savedGamesPanelElementHeight / 2) + 'px';
             }
         } )
         .catch( (error) => { warnError(); console.log(error); } );
